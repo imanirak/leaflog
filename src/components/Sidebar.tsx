@@ -6,9 +6,10 @@ import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { href: "/app", label: "Library", exact: true },
-  { href: "/app?group=room", label: "Rooms", exact: false },
-  { href: "/app/collections", label: "Collections", exact: false },
+  { href: "/app", label: "Library", exact: true, emoji: "🪴" },
+  { href: "/app?group=room", label: "Rooms", exact: false, emoji: "🏠" },
+  { href: "/app/collections", label: "Collections", exact: false, emoji: "📁" },
+  { href: "/app/profile", label: "My Profile", exact: false, emoji: "👤" },
 ];
 
 export default function Sidebar() {
@@ -27,9 +28,10 @@ export default function Sidebar() {
         supabase.from("plants").select("id", { count: "exact", head: true }).eq("user_id", user.id),
       ]);
       if (p) {
-        setProfile(p as { display_name: string | null; username: string | null; avatar_storage_path: string | null });
-        if ((p as { avatar_storage_path: string | null }).avatar_storage_path) {
-          const { data } = supabase.storage.from("avatars").getPublicUrl((p as { avatar_storage_path: string }).avatar_storage_path);
+        const prof = p as { display_name: string | null; username: string | null; avatar_storage_path: string | null };
+        setProfile(prof);
+        if (prof.avatar_storage_path) {
+          const { data } = supabase.storage.from("avatars").getPublicUrl(prof.avatar_storage_path);
           setAvatarUrl(data.publicUrl);
         }
       }
@@ -46,92 +48,101 @@ export default function Sidebar() {
 
   function isActive(href: string, exact: boolean) {
     if (exact) return pathname === "/app";
-    return pathname.startsWith(href.split("?")[0]) && href !== "/app";
+    const base = href.split("?")[0];
+    return pathname.startsWith(base) && base !== "/app";
   }
+
+  const initials = (profile?.display_name ?? profile?.username ?? "?")[0].toUpperCase();
 
   return (
     <aside className="flex w-60 shrink-0 flex-col" style={{ background: "var(--navy)", minHeight: "100vh" }}>
       {/* Logo */}
-      <div className="px-5 pt-6 pb-8">
+      <div className="px-5 py-6">
         <Link href="/app" className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl text-white text-lg" style={{ background: "var(--orange)" }}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl text-lg" style={{ background: "var(--orange)" }}>
             🌿
           </div>
           <div>
-            <p className="text-sm font-semibold text-white leading-tight">Leaflog</p>
-            <p className="text-xs" style={{ color: "#8b8fa8" }}>plant library</p>
+            <p className="text-sm font-bold text-white">Leaflog</p>
+            <p className="text-xs" style={{ color: "#6b7280" }}>plant library</p>
           </div>
         </Link>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-3">
-        <p className="mb-2 px-3 text-xs font-medium uppercase tracking-widest" style={{ color: "#5a5f78" }}>Browse</p>
+      {/* Nav section */}
+      <div className="px-3 pb-2">
+        <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-widest" style={{ color: "#4b5563" }}>Browse</p>
         <div className="space-y-0.5">
-          {navItems.map(({ href, label, exact }) => {
+          {navItems.map(({ href, label, exact, emoji }) => {
             const active = isActive(href, exact);
             return (
               <Link
                 key={label}
                 href={href}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors"
+                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all"
                 style={{
                   background: active ? "var(--navy-light)" : "transparent",
-                  color: active ? "#ffffff" : "#8b8fa8",
+                  color: active ? "#ffffff" : "#9ca3af",
                 }}
               >
-                <span
-                  className="h-1.5 w-1.5 rounded-full shrink-0"
-                  style={{ background: active ? "var(--orange)" : "transparent", border: active ? "none" : "1px solid #5a5f78" }}
-                />
+                <span className="w-5 text-center text-base leading-none">{emoji}</span>
                 {label}
+                {active && <span className="ml-auto h-1.5 w-1.5 rounded-full" style={{ background: "var(--orange)" }} />}
               </Link>
             );
           })}
 
-          {/* Care log — coming soon */}
-          <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm cursor-not-allowed" style={{ color: "#5a5f78" }}>
-            <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ border: "1px solid #5a5f78" }} />
-            Care log
-            <span className="ml-auto rounded-full px-2 py-0.5 text-xs font-medium" style={{ background: "#2a2e42", color: "#8b8fa8" }}>
-              SOON
-            </span>
+          {/* Care log */}
+          <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium opacity-40 cursor-not-allowed" style={{ color: "#9ca3af" }}>
+            <span className="w-5 text-center text-base leading-none">📋</span>
+            Care Log
+            <span className="ml-auto rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: "#1f2937", color: "#6b7280" }}>Soon</span>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Add a plant */}
+      <div className="flex-1" />
+
+      {/* Add plant CTA */}
       <div className="px-4 pb-4">
         <Link
           href="/app/plants/new"
-          className="flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          style={{ background: "var(--orange)" }}
+          className="flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 active:scale-95"
+          style={{ background: "var(--orange)", boxShadow: "0 4px 14px rgba(249,115,22,0.4)" }}
         >
           + Add a plant
         </Link>
       </div>
 
-      {/* User info */}
-      <div className="border-t px-4 py-4" style={{ borderColor: "#2a2e42" }}>
+      {/* User strip */}
+      <div className="border-t px-4 py-4" style={{ borderColor: "var(--navy-border)" }}>
         <div className="flex items-center gap-3">
-          <Link href="/app/profile" className="flex items-center gap-3 flex-1 min-w-0 group">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white" style={{ background: "#3a3f58" }}>
-              {avatarUrl ? (
+          <Link href="/app/profile" className="flex min-w-0 flex-1 items-center gap-3 group">
+            <div
+              className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-bold text-white"
+              style={{ background: avatarUrl ? "transparent" : "#374151" }}
+            >
+              {avatarUrl
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt="avatar" className="h-full w-full object-cover" />
-              ) : (
-                (profile?.display_name ?? profile?.username ?? "?")[0].toUpperCase()
-              )}
+                ? <img src={avatarUrl} alt="avatar" className="h-full w-full object-cover" />
+                : initials}
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-white group-hover:text-orange-400 transition-colors">
-                {profile?.display_name ?? profile?.username ?? "My profile"}
+              <p className="truncate text-sm font-semibold text-white group-hover:text-orange-400 transition-colors">
+                {profile?.display_name ?? profile?.username ?? "My Profile"}
               </p>
-              <p className="text-xs" style={{ color: "#5a5f78" }}>{plantCount} plant{plantCount !== 1 ? "s" : ""} thriving</p>
+              <p className="text-xs" style={{ color: "#6b7280" }}>{plantCount} plant{plantCount !== 1 ? "s" : ""} thriving</p>
             </div>
           </Link>
-          <button onClick={signOut} title="Sign out" className="shrink-0 text-xs transition-colors hover:text-red-400" style={{ color: "#5a5f78" }}>
-            ↩
+          <button
+            onClick={signOut}
+            title="Sign out"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-white/10"
+            style={{ color: "#6b7280" }}
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
           </button>
         </div>
       </div>

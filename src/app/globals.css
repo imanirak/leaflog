@@ -3,10 +3,15 @@
 :root {
   --navy: #1c1f2e;
   --navy-light: #262a3d;
+  --navy-border: #2a2e42;
   --cream: #f0ebe3;
+  --cream-dark: #e8e2d9;
   --orange: #f97316;
   --orange-light: #fff0e6;
   --card: #ffffff;
+  --text: #1c1f2e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
   --font-display: var(--font-lora), Georgia, serif;
   --font-sans: var(--font-geist), system-ui, sans-serif;
 }

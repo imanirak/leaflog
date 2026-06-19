@@ -5,13 +5,12 @@ import Sidebar from "@/components/Sidebar";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-
   if (!user) redirect("/login");
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen" style={{ background: "var(--cream)" }}>
       <Sidebar />
-      <main className="flex-1 overflow-auto" style={{ background: "var(--cream)" }}>
+      <main className="flex-1 overflow-auto">
         {children}
       </main>
     </div>
