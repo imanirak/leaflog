@@ -79,7 +79,7 @@ export default function Home() {
               Start your diary — free
             </Link>
             <Link
-              href="/login"
+              href="/demo"
               className="rounded-xl border px-5 py-3.5 text-base font-semibold transition-colors hover:bg-black/5"
               style={{ borderColor: "#cfc8bb", color: "var(--text)" }}
             >
@@ -165,8 +165,8 @@ export default function Home() {
           {features.map(ft => (
             <div key={ft.title} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={ft.img} alt="" className="h-42 w-full object-cover" style={{ height: 168 }} />
-              <div className="p-5.5">
+              <img src={ft.img} alt="" className="w-full object-cover" style={{ height: 168 }} />
+              <div className="p-6">
                 <h3 className="mb-2 text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{ft.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{ft.body}</p>
               </div>
@@ -199,7 +199,7 @@ export default function Home() {
           </p>
           <Link
             href="/signup"
-            className="inline-block w-fit rounded-xl px-5.5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="inline-block w-fit rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "var(--orange)" }}
           >
             Compare your own
@@ -221,9 +221,9 @@ export default function Home() {
             <div key={pr.handle} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={pr.img} alt="" className="h-36 w-full object-cover" />
-              <div className="p-4.5">
+              <div className="p-5">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: pr.avatarBg, width: 38, height: 38 }}>
+                  <div className="flex shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: pr.avatarBg, width: 38, height: 38 }}>
                     {pr.initials}
                   </div>
                   <div className="leading-tight">
@@ -276,7 +276,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="mt-10 border-t pt-5.5 text-xs" style={{ borderColor: "var(--navy-border)", color: "#6b7280" }}>
+        <div className="mt-10 border-t pt-6 text-xs" style={{ borderColor: "var(--navy-border)", color: "#6b7280" }}>
           © 2026 Leaflog · Grown with care.
         </div>
       </footer>

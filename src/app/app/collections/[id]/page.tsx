@@ -42,11 +42,11 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
     <div className="mx-auto max-w-3xl p-8">
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <Link href="/app/collections" className="mb-3 inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-600">
+          <Link href="/app/collections" className="mb-3 inline-flex items-center gap-1 text-sm" style={{ color: "var(--muted)" }}>
             ← Collections
           </Link>
-          <h1 className="text-2xl font-semibold text-stone-900">{collection.name}</h1>
-          <p className="text-sm text-stone-400">{memberIds.size} plant{memberIds.size !== 1 ? "s" : ""}</p>
+          <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>{collection.name}</h1>
+          <p className="text-sm" style={{ color: "var(--muted)" }}>{memberIds.size} plant{memberIds.size !== 1 ? "s" : ""}</p>
         </div>
         <form action={deleteAction}>
           <button type="submit" className="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm text-red-500 hover:bg-red-50">
@@ -68,15 +68,15 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
             if (!plant) return null;
             const removeAction = removePlantFromCollection.bind(null, id, plant.id);
             return (
-              <div key={plant.id} className="group rounded-2xl border border-stone-200 bg-white p-4">
+              <div key={plant.id} className="group rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
                 <Link href={`/app/plants/${plant.id}`} className="block">
                   <div className="mb-1 text-2xl">🌱</div>
-                  <p className="font-medium text-stone-900 group-hover:text-green-700">{plant.name}</p>
-                  {plant.species && <p className="mt-0.5 text-xs italic text-stone-400">{plant.species}</p>}
-                  {plant.room && <p className="mt-1 text-xs text-stone-400">📍 {plant.room}</p>}
+                  <p className="font-semibold transition-colors group-hover:text-orange-500" style={{ color: "var(--text)" }}>{plant.name}</p>
+                  {plant.species && <p className="mt-0.5 text-xs italic" style={{ color: "var(--muted)" }}>{plant.species}</p>}
+                  {plant.room && <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>📍 {plant.room}</p>}
                 </Link>
                 <form action={removeAction} className="mt-3">
-                  <button type="submit" className="text-xs text-stone-300 hover:text-red-500">
+                  <button type="submit" className="text-xs hover:text-red-500" style={{ color: "#d1d5db" }}>
                     Remove
                   </button>
                 </form>

@@ -19,6 +19,14 @@ const CARE_META: Record<CareType, { label: string; emoji: string }> = {
   other: { label: "Care", emoji: "📋" },
 };
 
+type PhotoRow = { id: string; storage_path: string; caption: string | null; taken_at: string; is_shared: boolean };
+type NoteRow = { id: string; body: string; created_at: string };
+type CareEntry = { id: string; type: CareType; note: string | null; logged_at: string };
+
+type TimelineItem =
+  | { kind: "photo"; date: string; photo: PhotoRow }
+  | { kind: "note"; date: string; note: NoteRow };
+
 export default async function PlantDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
   const { id } = await params;
@@ -27,9 +35,6 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
     id: string; name: string; species: string | null; room: string | null; date_acquired: string | null;
     plant_tags: { tag: string }[];
   };
-  type PhotoRow = { id: string; storage_path: string; caption: string | null; taken_at: string; is_shared: boolean };
-  type NoteRow = { id: string; body: string; created_at: string };
-  type CareEntry = { id: string; type: CareType; note: string | null; logged_at: string };
 
   const { data: plantRaw } = await supabase
     .from("plants")
@@ -69,6 +74,23 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
 
   const tags = plant.plant_tags.map(t => t.tag);
 
+  // Hero = most recent photo; oldest-first filmstrip for the growth strip
+  const sortedByOldest = [...photos].sort((a, b) => new Date(a.taken_at).getTime() - new Date(b.taken_at).getTime());
+  const hero = sortedByOldest[sortedByOldest.length - 1];
+
+  // Merge photos + notes into one reverse-chronological timeline
+  const timeline: TimelineItem[] = [
+    ...photos.map(p => ({ kind: "photo" as const, date: p.taken_at, photo: p })),
+    ...notes.map(n => ({ kind: "note" as const, date: n.created_at, note: n })),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const grouped = new Map<string, TimelineItem[]>();
+  for (const item of timeline) {
+    const day = new Date(item.date).toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+    if (!grouped.has(day)) grouped.set(day, []);
+    grouped.get(day)!.push(item);
+  }
+
   return (
     <div className="mx-auto max-w-3xl p-8">
       {/* Header */}
@@ -105,6 +127,47 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           </Link>
           <DeletePlantButton plantId={id} />
         </div>
+      </div>
+
+      {/* Hero photo + growth filmstrip */}
+      <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #ede8e0" }}>
+        <div className="relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0" }}>
+          {hero ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={`/api/photos/${hero.id}`} alt={plant.name} className="h-72 w-full object-cover" />
+          ) : (
+            <div className="flex h-72 items-center justify-center text-6xl opacity-50">🌱</div>
+          )}
+          {hero && (
+            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
+              {plant.name}{plant.species ? ` · ${plant.species}` : ""}
+            </div>
+          )}
+        </div>
+        {photos.length > 0 && (
+          <>
+            <div className="mb-2.5 mt-4 flex items-center justify-between px-1">
+              <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#8a8d84" }}>Growth timeline</p>
+              <p className="text-xs" style={{ color: "#8a8d84" }}>{photos.length} check-in{photos.length !== 1 ? "s" : ""}</p>
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {sortedByOldest.map((p, i) => {
+                const isLast = i === sortedByOldest.length - 1;
+                return (
+                  <a key={p.id} href="#timeline" className="shrink-0" style={{ width: 64 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/api/photos/${p.id}`}
+                      alt=""
+                      className="h-14 w-16 rounded-lg object-cover"
+                      style={{ border: isLast ? "2px solid var(--orange)" : "2px solid transparent" }}
+                    />
+                  </a>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Watering status */}
@@ -155,82 +218,78 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
         )}
       </section>
 
-      {/* Photos */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Photos</h2>
+      {/* Add to timeline */}
+      <section id="timeline" className="mb-6 space-y-3">
+        <h2 className="text-lg font-semibold" style={{ color: "var(--text)" }}>Add a check-in</h2>
         <PhotoUpload plantId={id} />
-        {photos && photos.length > 0 ? (
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {photos.map((photo: PhotoRow) => (
-              <div key={photo.id} className="group relative overflow-hidden rounded-xl" style={{ background: "#ede8e0" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/api/photos/${photo.id}`}
-                  alt={photo.caption ?? plant.name}
-                  className="h-40 w-full object-cover"
-                />
-                {photo.is_shared && (
-                  <div className="absolute right-2 top-2 rounded-full px-2 py-0.5 text-xs text-white" style={{ background: "var(--orange)" }}>
-                    Shared
-                  </div>
-                )}
-                <div className="absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-black/70 p-2 group-hover:block">
-                  <div className="flex items-end justify-between gap-1">
-                    {photo.caption && <p className="text-xs text-white">{photo.caption}</p>}
-                    <div className="ml-auto flex gap-2">
-                      <form action={photo.is_shared
-                        ? unsharePhoto.bind(null, photo.id, id)
-                        : sharePhoto.bind(null, photo.id, id)
-                      }>
-                        <button type="submit" className="text-xs text-orange-300 hover:text-orange-100">
-                          {photo.is_shared ? "Unshare" : "Share"}
-                        </button>
-                      </form>
-                      <form action={deletePhoto.bind(null, photo.id, photo.storage_path, id)}>
-                        <button type="submit" className="text-xs text-red-300 hover:text-red-100">
-                          Delete
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <p className="px-2 py-1 text-xs" style={{ color: "var(--muted)" }}>
-                  {new Date(photo.taken_at).toLocaleDateString()}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="mt-4 text-sm" style={{ color: "var(--muted)" }}>No photos yet.</p>
-        )}
+        <NoteForm plantId={id} />
       </section>
 
-      {/* Notes */}
+      {/* Unified timeline: photos + notes by date */}
       <section>
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Notes</h2>
-        <NoteForm plantId={id} />
-        {notes && notes.length > 0 ? (
-          <div className="mt-4 space-y-3">
-            {notes.map((note: NoteRow) => (
-              <div key={note.id} className="group rounded-xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                <div className="flex items-start justify-between gap-3">
-                  <p className="flex-1 whitespace-pre-wrap text-sm" style={{ color: "var(--text)" }}>{note.body}</p>
-                  <form action={deleteNote.bind(null, note.id, id)}>
-                    <button type="submit" className="hidden text-xs group-hover:block" style={{ color: "#d1d5db" }}>
-                      ✕
-                    </button>
-                  </form>
-                </div>
-                <p className="mt-2 text-xs" style={{ color: "#9ca3af" }}>
-                  {new Date(note.created_at).toLocaleDateString("en-US", {
-                    year: "numeric", month: "short", day: "numeric",
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Timeline</h2>
+        {timeline.length === 0 ? (
+          <div className="rounded-2xl py-16 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
+            <div className="mb-2 text-3xl">🌱</div>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>Nothing logged yet — add a photo or note above to start the story.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {[...grouped.entries()].map(([day, items]) => (
+              <div key={day}>
+                <p className="mb-2.5 text-xs font-bold uppercase tracking-widest" style={{ color: "#9ca3af" }}>{day}</p>
+                <div className="space-y-3">
+                  {items.map(item => {
+                    if (item.kind === "photo") {
+                      const photo = item.photo;
+                      return (
+                        <div key={`photo-${photo.id}`} className="group relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0", border: "1px solid #ede8e0" }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={`/api/photos/${photo.id}`} alt={photo.caption ?? plant.name} className="h-64 w-full object-cover" />
+                          {photo.is_shared && (
+                            <div className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold text-white" style={{ background: "var(--orange)" }}>
+                              Shared
+                            </div>
+                          )}
+                          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/70 p-3 opacity-0 transition-opacity group-hover:opacity-100">
+                            {photo.caption && <p className="text-sm text-white">{photo.caption}</p>}
+                            <div className="ml-auto flex gap-3">
+                              <form action={photo.is_shared ? unsharePhoto.bind(null, photo.id, id) : sharePhoto.bind(null, photo.id, id)}>
+                                <button type="submit" className="text-xs font-medium text-orange-300 hover:text-orange-100">
+                                  {photo.is_shared ? "Unshare" : "Share"}
+                                </button>
+                              </form>
+                              <form action={deletePhoto.bind(null, photo.id, photo.storage_path, id)}>
+                                <button type="submit" className="text-xs font-medium text-red-300 hover:text-red-100">Delete</button>
+                              </form>
+                            </div>
+                          </div>
+                          {photo.caption && (
+                            <p className="px-3.5 py-2.5 text-sm" style={{ color: "var(--text)", background: "var(--card)" }}>{photo.caption}</p>
+                          )}
+                        </div>
+                      );
+                    }
+                    const note = item.note;
+                    return (
+                      <div key={`note-${note.id}`} className="group flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+                        <span className="mt-0.5 text-base">📝</span>
+                        <div className="flex-1">
+                          <p className="whitespace-pre-wrap text-sm" style={{ color: "var(--text)" }}>{note.body}</p>
+                          <p className="mt-1 text-xs" style={{ color: "#9ca3af" }}>
+                            {new Date(note.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                          </p>
+                        </div>
+                        <form action={deleteNote.bind(null, note.id, id)}>
+                          <button type="submit" className="hidden text-xs group-hover:block" style={{ color: "#d1d5db" }}>✕</button>
+                        </form>
+                      </div>
+                    );
                   })}
-                </p>
+                </div>
               </div>
             ))}
           </div>
-        ) : (
-          <p className="mt-4 text-sm" style={{ color: "var(--muted)" }}>No notes yet.</p>
         )}
       </section>
     </div>

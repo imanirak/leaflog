@@ -19,11 +19,13 @@ export default function NoteForm({ plantId }: { plantId: string }) {
         required
         placeholder="Add a note…"
         rows={2}
-        className="flex-1 resize-none rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+        className="flex-1 resize-none rounded-xl border bg-white px-4 py-2.5 text-sm outline-none"
+        style={{ borderColor: "#ddd5c8" }}
       />
       <button
         type="submit"
-        className="self-end rounded-xl bg-green-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-800"
+        className="self-end rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90"
+        style={{ background: "var(--orange)" }}
       >
         Save
       </button>

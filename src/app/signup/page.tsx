@@ -27,11 +27,11 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6">
+      <main className="flex min-h-screen items-center justify-center px-6" style={{ background: "var(--cream)" }}>
         <div className="w-full max-w-sm text-center">
           <div className="mb-3 text-4xl">📬</div>
-          <h1 className="text-2xl font-semibold text-stone-900">Check your email</h1>
-          <p className="mt-2 text-sm text-stone-500">
+          <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>Check your email</h1>
+          <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
             We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
           </p>
         </div>
@@ -40,47 +40,50 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-6">
+    <main className="flex min-h-screen items-center justify-center px-6" style={{ background: "var(--cream)" }}>
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="mb-3 text-4xl">🌿</div>
-          <h1 className="text-2xl font-semibold text-stone-900">Start your Leaflog</h1>
-          <p className="mt-1 text-sm text-stone-500">Free to use, yours forever</p>
+          <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>Start your Leaflog</h1>
+          <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Free to use, yours forever</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-stone-700">Email</label>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-xl border bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400"
+              style={{ borderColor: "#ddd5c8" }}
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-stone-700">Password</label>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Password</label>
             <input
               type="password"
               required
               minLength={6}
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-xl border bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400"
+              style={{ borderColor: "#ddd5c8" }}
             />
           </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-green-700 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-800 disabled:opacity-50"
+            className="w-full rounded-xl py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 disabled:opacity-50"
+            style={{ background: "var(--orange)" }}
           >
             {loading ? "Creating account…" : "Create account"}
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-stone-500">
+        <p className="mt-6 text-center text-sm" style={{ color: "var(--muted)" }}>
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-green-700 hover:underline">
+          <Link href="/login" className="font-medium hover:underline" style={{ color: "var(--orange)" }}>
             Sign in
           </Link>
         </p>

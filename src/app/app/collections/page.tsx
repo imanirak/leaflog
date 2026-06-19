@@ -15,7 +15,7 @@ export default async function CollectionsPage() {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-stone-900">Collections</h1>
+        <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>Collections</h1>
       </div>
 
       <form action={addCollection} className="mb-8 flex gap-2">
@@ -23,11 +23,13 @@ export default async function CollectionsPage() {
           name="name"
           required
           placeholder="New collection name…"
-          className="flex-1 max-w-xs rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
+          className="flex-1 max-w-xs rounded-xl border bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400"
+          style={{ borderColor: "#ddd5c8" }}
         />
         <button
           type="submit"
-          className="rounded-xl bg-green-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-800"
+          className="rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90"
+          style={{ background: "var(--orange)" }}
         >
           Create
         </button>
@@ -39,20 +41,21 @@ export default async function CollectionsPage() {
             <Link
               key={col.id}
               href={`/app/collections/${col.id}`}
-              className="rounded-2xl border border-stone-200 bg-white p-5 transition-shadow hover:shadow-md"
+              className="rounded-2xl p-5 shadow-sm transition-shadow hover:shadow-md"
+              style={{ background: "var(--card)", border: "1px solid #ede8e0" }}
             >
               <div className="mb-2 text-3xl">📁</div>
-              <p className="font-medium text-stone-900">{col.name}</p>
-              <p className="mt-1 text-sm text-stone-400">
+              <p className="font-semibold" style={{ color: "var(--text)" }}>{col.name}</p>
+              <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
                 {col.plant_collections.length} plant{col.plant_collections.length !== 1 ? "s" : ""}
               </p>
             </Link>
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
           <div className="mb-3 text-5xl">📁</div>
-          <p className="text-stone-500">No collections yet. Create one above.</p>
+          <p style={{ color: "var(--muted)" }}>No collections yet. Create one above.</p>
         </div>
       )}
     </div>
