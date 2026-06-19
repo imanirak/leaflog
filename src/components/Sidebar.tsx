@@ -9,6 +9,7 @@ const navItems = [
   { href: "/app", label: "Library", exact: true, emoji: "🪴" },
   { href: "/app?group=room", label: "Rooms", exact: false, emoji: "🏠" },
   { href: "/app/collections", label: "Collections", exact: false, emoji: "📁" },
+  { href: "/app/care-log", label: "Care Log", exact: false, emoji: "📋" },
   { href: "/app/profile", label: "My Profile", exact: false, emoji: "👤" },
 ];
 
@@ -91,13 +92,6 @@ export default function Sidebar() {
               </Link>
             );
           })}
-
-          {/* Care log */}
-          <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium opacity-40 cursor-not-allowed" style={{ color: "#9ca3af" }}>
-            <span className="w-5 text-center text-base leading-none">📋</span>
-            Care Log
-            <span className="ml-auto rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: "#1f2937", color: "#6b7280" }}>Soon</span>
-          </div>
         </div>
       </div>
 

@@ -28,6 +28,22 @@ export default async function LibraryPage({
     .order("created_at", { ascending: false });
   const plants = (plantsRaw ?? []) as PlantRow[];
 
+  const { data: lastWateredRaw } = await supabase
+    .from("care_log_entries")
+    .select("plant_id, logged_at")
+    .eq("user_id", user!.id)
+    .eq("type", "watered")
+    .order("logged_at", { ascending: false });
+  const lastWateredMap = new Map<string, string>();
+  for (const w of (lastWateredRaw ?? []) as { plant_id: string; logged_at: string }[]) {
+    if (!lastWateredMap.has(w.plant_id)) lastWateredMap.set(w.plant_id, w.logged_at);
+  }
+  const needsWater = plants.filter(p => {
+    const last = lastWateredMap.get(p.id);
+    if (!last) return true;
+    return (Date.now() - new Date(last).getTime()) / (1000 * 60 * 60 * 24) >= 7;
+  });
+
   const q = params.q?.toLowerCase() ?? "";
   const filtered = plants.filter(p => {
     if (params.tag && !p.plant_tags.some(t => t.tag === params.tag)) return false;
@@ -88,6 +104,32 @@ export default async function LibraryPage({
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Needs attention */}
+        {needsWater.length > 0 && (
+          <div className="mb-6 rounded-2xl px-5 py-4" style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+            <div className="flex items-center justify-between">
+              <p className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#b91c1c" }}>
+                💧 {needsWater.length} plant{needsWater.length !== 1 ? "s" : ""} need{needsWater.length === 1 ? "s" : ""} water
+              </p>
+              <Link href="/app/care-log" className="text-xs font-medium hover:underline" style={{ color: "#b91c1c" }}>
+                View care log →
+              </Link>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {needsWater.slice(0, 6).map(p => (
+                <Link
+                  key={p.id}
+                  href={`/app/plants/${p.id}`}
+                  className="rounded-full px-3 py-1 text-xs font-medium"
+                  style={{ background: "white", color: "#b91c1c", border: "1px solid #fecaca" }}
+                >
+                  {p.name}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
 
