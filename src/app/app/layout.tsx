@@ -11,7 +11,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto" style={{ background: "var(--cream)" }}>
+        {children}
+      </main>
     </div>
   );
 }

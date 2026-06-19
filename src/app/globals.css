@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+:root {
+  --navy: #1c1f2e;
+  --navy-light: #262a3d;
+  --cream: #f0ebe3;
+  --orange: #f97316;
+  --orange-light: #fff0e6;
+  --card: #ffffff;
+  --font-display: var(--font-lora), Georgia, serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+}
