@@ -97,24 +97,24 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
       <div className="mb-6 flex items-start justify-between">
         <div>
           <Link href="/app" className="mb-3 inline-flex items-center gap-1 text-sm" style={{ color: "var(--muted)" }}>
-            ← All plants
+            <span aria-hidden="true">←</span> All plants
           </Link>
           <h1 className="text-3xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>{plant.name}</h1>
           {plant.species && <p className="mt-1 italic text-sm" style={{ color: "var(--muted)" }}>{plant.species}</p>}
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm" style={{ color: "var(--muted)" }}>
-            {plant.room && <span>📍 {plant.room}</span>}
+            {plant.room && <span><span aria-hidden="true">📍</span> {plant.room}</span>}
             {plant.date_acquired && (
               <span>Added {new Date(plant.date_acquired).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
             )}
           </div>
           {tags.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <ul className="mt-3 flex flex-wrap gap-1.5">
               {tags.map((tag: string) => (
-                <span key={tag} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: "var(--orange-light)", color: "#c2410c" }}>
+                <li key={tag} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: "var(--orange-light)", color: "var(--orange-text)" }}>
                   #{tag}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           >
             Edit
           </Link>
-          <DeletePlantButton plantId={id} />
+          <DeletePlantButton plantId={id} plantName={plant.name} />
         </div>
       </div>
 
@@ -134,9 +134,15 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
         <div className="relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0" }}>
           {hero ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={`/api/photos/${hero.id}`} alt={plant.name} className="h-72 w-full object-cover" />
+            <img
+              src={`/api/photos/${hero.id}`}
+              alt={`Most recent photo of ${plant.name}, taken ${new Date(hero.taken_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
+              className="h-72 w-full object-cover"
+            />
           ) : (
-            <div className="flex h-72 items-center justify-center text-6xl opacity-50">🌱</div>
+            <div className="flex h-72 items-center justify-center text-6xl opacity-50" role="img" aria-label={`No photos yet for ${plant.name}`}>
+              <span aria-hidden="true">🌱</span>
+            </div>
           )}
           {hero && (
             <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
@@ -147,14 +153,21 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
         {photos.length > 0 && (
           <>
             <div className="mb-2.5 mt-4 flex items-center justify-between px-1">
-              <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#8a8d84" }}>Growth timeline</p>
-              <p className="text-xs" style={{ color: "#8a8d84" }}>{photos.length} check-in{photos.length !== 1 ? "s" : ""}</p>
+              <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Growth timeline</p>
+              <p className="text-xs" style={{ color: "var(--muted)" }}>{photos.length} check-in{photos.length !== 1 ? "s" : ""}</p>
             </div>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {sortedByOldest.map((p, i) => {
                 const isLast = i === sortedByOldest.length - 1;
+                const dateLabel = new Date(p.taken_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
                 return (
-                  <a key={p.id} href="#timeline" className="shrink-0" style={{ width: 64 }}>
+                  <a
+                    key={p.id}
+                    href="#timeline"
+                    aria-label={`Jump to timeline entry from ${dateLabel}`}
+                    className="shrink-0"
+                    style={{ width: 64 }}
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`/api/photos/${p.id}`}
@@ -179,7 +192,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
             border: `1px solid ${daysSinceWatered >= 7 ? "#fecaca" : "#ede8e0"}`,
           }}
         >
-          <span className="text-xl">💧</span>
+          <span className="text-xl" aria-hidden="true">💧</span>
           <p className="text-sm" style={{ color: daysSinceWatered >= 7 ? "#b91c1c" : "var(--muted)" }}>
             {daysSinceWatered === 0 ? "Watered today" : `Last watered ${daysSinceWatered} day${daysSinceWatered !== 1 ? "s" : ""} ago`}
             {daysSinceWatered >= 7 && " — might need water soon"}
@@ -188,29 +201,35 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
       )}
 
       {/* Care log quick actions */}
-      <section className="mb-8">
-        <h2 className="mb-3 text-lg font-semibold" style={{ color: "var(--text)" }}>Log care</h2>
+      <section className="mb-8" aria-labelledby="log-care-heading">
+        <h2 id="log-care-heading" className="mb-3 text-lg font-semibold" style={{ color: "var(--text)" }}>Log care</h2>
         <QuickLogCare plantId={id} />
 
         {careEntries.length > 0 && (
           <div className="mt-4 space-y-2">
             {careEntries.slice(0, 5).map(entry => {
               const meta = CARE_META[entry.type];
+              const entryDate = new Date(entry.logged_at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
               return (
                 <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-3 py-2" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                  <span className="text-base">{meta.emoji}</span>
+                  <span className="text-base" aria-hidden="true">{meta.emoji}</span>
                   <p className="flex-1 text-sm" style={{ color: "var(--text)" }}>{meta.label}</p>
-                  <p className="text-xs" style={{ color: "#9ca3af" }}>
-                    {new Date(entry.logged_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                  </p>
+                  <p className="text-xs" style={{ color: "var(--muted)" }}>{entryDate}</p>
                   <form action={deleteCareEntry.bind(null, entry.id, id)}>
-                    <button type="submit" className="hidden text-xs group-hover:block" style={{ color: "#d1d5db" }}>✕</button>
+                    <button
+                      type="submit"
+                      aria-label={`Delete ${meta.label.toLowerCase()} entry from ${entryDate}`}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-xs opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 hover:bg-red-50 hover:text-red-600"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      ✕
+                    </button>
                   </form>
                 </div>
               );
             })}
             {careEntries.length > 5 && (
-              <Link href={`/app/care-log?plant=${id}`} className="block text-center text-xs font-medium hover:underline" style={{ color: "var(--orange)" }}>
+              <Link href={`/app/care-log?plant=${id}`} className="block text-center text-xs font-medium hover:underline" style={{ color: "var(--orange-text)" }}>
                 View full care history →
               </Link>
             )}
@@ -219,69 +238,81 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
       </section>
 
       {/* Add to timeline */}
-      <section id="timeline" className="mb-6 space-y-3">
-        <h2 className="text-lg font-semibold" style={{ color: "var(--text)" }}>Add a check-in</h2>
+      <section id="timeline" className="mb-6 space-y-3" aria-labelledby="add-checkin-heading">
+        <h2 id="add-checkin-heading" className="text-lg font-semibold" style={{ color: "var(--text)" }}>Add a check-in</h2>
         <PhotoUpload plantId={id} />
         <NoteForm plantId={id} />
       </section>
 
       {/* Unified timeline: photos + notes by date */}
-      <section>
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Timeline</h2>
+      <section aria-labelledby="timeline-heading">
+        <h2 id="timeline-heading" className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Timeline</h2>
         {timeline.length === 0 ? (
           <div className="rounded-2xl py-16 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
-            <div className="mb-2 text-3xl">🌱</div>
+            <div className="mb-2 text-3xl" aria-hidden="true">🌱</div>
             <p className="text-sm" style={{ color: "var(--muted)" }}>Nothing logged yet — add a photo or note above to start the story.</p>
           </div>
         ) : (
           <div className="space-y-6">
             {[...grouped.entries()].map(([day, items]) => (
               <div key={day}>
-                <p className="mb-2.5 text-xs font-bold uppercase tracking-widest" style={{ color: "#9ca3af" }}>{day}</p>
+                <p className="mb-2.5 text-xs font-bold uppercase tracking-widest" style={{ color: "var(--muted)" }}>{day}</p>
                 <div className="space-y-3">
                   {items.map(item => {
                     if (item.kind === "photo") {
                       const photo = item.photo;
+                      const photoTime = new Date(photo.taken_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
                       return (
                         <div key={`photo-${photo.id}`} className="group relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0", border: "1px solid #ede8e0" }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/api/photos/${photo.id}`} alt={photo.caption ?? plant.name} className="h-64 w-full object-cover" />
+                          <img
+                            src={`/api/photos/${photo.id}`}
+                            alt={photo.caption ? `${plant.name}: ${photo.caption}` : `Photo of ${plant.name}`}
+                            className="h-64 w-full object-cover"
+                          />
                           {photo.is_shared && (
-                            <div className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold text-white" style={{ background: "var(--orange)" }}>
+                            <div className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
                               Shared
                             </div>
                           )}
-                          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/70 p-3 opacity-0 transition-opacity group-hover:opacity-100">
+                          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/70 p-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
                             {photo.caption && <p className="text-sm text-white">{photo.caption}</p>}
                             <div className="ml-auto flex gap-3">
                               <form action={photo.is_shared ? unsharePhoto.bind(null, photo.id, id) : sharePhoto.bind(null, photo.id, id)}>
-                                <button type="submit" className="text-xs font-medium text-orange-300 hover:text-orange-100">
+                                <button type="submit" className="text-xs font-medium text-orange-200 underline-offset-2 hover:underline focus-visible:opacity-100">
                                   {photo.is_shared ? "Unshare" : "Share"}
                                 </button>
                               </form>
                               <form action={deletePhoto.bind(null, photo.id, photo.storage_path, id)}>
-                                <button type="submit" className="text-xs font-medium text-red-300 hover:text-red-100">Delete</button>
+                                <button type="submit" className="text-xs font-medium text-red-200 underline-offset-2 hover:underline focus-visible:opacity-100">Delete</button>
                               </form>
                             </div>
                           </div>
-                          {photo.caption && (
-                            <p className="px-3.5 py-2.5 text-sm" style={{ color: "var(--text)", background: "var(--card)" }}>{photo.caption}</p>
-                          )}
+                          <p className="px-3.5 py-2.5 text-sm" style={{ color: "var(--text)", background: "var(--card)" }}>
+                            {photo.caption ?? <span style={{ color: "var(--muted)" }}>No caption</span>}{" "}
+                            <span className="text-xs" style={{ color: "var(--muted)" }}>· {photoTime}</span>
+                          </p>
                         </div>
                       );
                     }
                     const note = item.note;
+                    const noteTime = new Date(note.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
                     return (
                       <div key={`note-${note.id}`} className="group flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                        <span className="mt-0.5 text-base">📝</span>
+                        <span className="mt-0.5 text-base" aria-hidden="true">📝</span>
                         <div className="flex-1">
                           <p className="whitespace-pre-wrap text-sm" style={{ color: "var(--text)" }}>{note.body}</p>
-                          <p className="mt-1 text-xs" style={{ color: "#9ca3af" }}>
-                            {new Date(note.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
-                          </p>
+                          <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>{noteTime}</p>
                         </div>
                         <form action={deleteNote.bind(null, note.id, id)}>
-                          <button type="submit" className="hidden text-xs group-hover:block" style={{ color: "#d1d5db" }}>✕</button>
+                          <button
+                            type="submit"
+                            aria-label={`Delete note from ${day}`}
+                            className="flex h-8 w-8 items-center justify-center rounded-lg text-xs opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 hover:bg-red-50 hover:text-red-600"
+                            style={{ color: "var(--muted)" }}
+                          >
+                            ✕
+                          </button>
                         </form>
                       </div>
                     );

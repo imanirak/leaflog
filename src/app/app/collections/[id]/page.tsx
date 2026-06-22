@@ -43,13 +43,17 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
       <div className="mb-6 flex items-start justify-between">
         <div>
           <Link href="/app/collections" className="mb-3 inline-flex items-center gap-1 text-sm" style={{ color: "var(--muted)" }}>
-            ← Collections
+            <span aria-hidden="true">←</span> Collections
           </Link>
           <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>{collection.name}</h1>
           <p className="text-sm" style={{ color: "var(--muted)" }}>{memberIds.size} plant{memberIds.size !== 1 ? "s" : ""}</p>
         </div>
         <form action={deleteAction}>
-          <button type="submit" className="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm text-red-500 hover:bg-red-50">
+          <button
+            type="submit"
+            aria-label={`Delete collection "${collection.name}"`}
+            className="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+          >
             Delete collection
           </button>
         </form>
@@ -70,13 +74,18 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
             return (
               <div key={plant.id} className="group rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
                 <Link href={`/app/plants/${plant.id}`} className="block">
-                  <div className="mb-1 text-2xl">🌱</div>
-                  <p className="font-semibold transition-colors group-hover:text-orange-500" style={{ color: "var(--text)" }}>{plant.name}</p>
+                  <div className="mb-1 text-2xl" aria-hidden="true">🌱</div>
+                  <p className="font-semibold transition-colors" style={{ color: "var(--text)" }}>{plant.name}</p>
                   {plant.species && <p className="mt-0.5 text-xs italic" style={{ color: "var(--muted)" }}>{plant.species}</p>}
-                  {plant.room && <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>📍 {plant.room}</p>}
+                  {plant.room && <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}><span aria-hidden="true">📍</span> {plant.room}</p>}
                 </Link>
                 <form action={removeAction} className="mt-3">
-                  <button type="submit" className="text-xs hover:text-red-500" style={{ color: "#d1d5db" }}>
+                  <button
+                    type="submit"
+                    aria-label={`Remove ${plant.name} from ${collection.name}`}
+                    className="rounded-md px-1.5 py-1 text-xs font-medium transition-colors hover:bg-red-50 hover:text-red-600"
+                    style={{ color: "var(--muted)" }}
+                  >
                     Remove
                   </button>
                 </form>
@@ -85,7 +94,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
           })}
         </div>
       ) : (
-        <p className="text-sm text-stone-400">No plants in this collection yet.</p>
+        <p className="text-sm" style={{ color: "var(--muted)" }}>No plants in this collection yet.</p>
       )}
     </div>
   );

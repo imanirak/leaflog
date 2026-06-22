@@ -37,7 +37,7 @@ export default function DemoPage() {
       {/* Demo banner */}
       <div className="flex items-center justify-center gap-3 px-6 py-3 text-center text-sm font-medium text-white" style={{ background: "var(--navy)" }}>
         <span>🌿 You&apos;re viewing a sample plant page — Monty isn&apos;t real (but your plants can be).</span>
-        <Link href="/signup" className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: "var(--orange)" }}>
+        <Link href="/signup" className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
           Start your diary →
         </Link>
       </div>
@@ -57,7 +57,7 @@ export default function DemoPage() {
           </div>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {["tropical", "easy-care", "statement-plant"].map(tag => (
-              <span key={tag} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: "var(--orange-light)", color: "#c2410c" }}>
+              <span key={tag} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: "var(--orange-light)", color: "var(--orange-text)" }}>
                 #{tag}
               </span>
             ))}
@@ -68,17 +68,17 @@ export default function DemoPage() {
         <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #ede8e0" }}>
           <div className="relative overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photos[photos.length - 1].img} alt="Monty" className="h-72 w-full object-cover" />
+            <img src={photos[photos.length - 1].img} alt="Most recent photo of Monty the monstera" className="h-72 w-full object-cover" />
             <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
               Monty · Monstera deliciosa
             </div>
-            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold text-white" style={{ background: "var(--orange)" }}>
+            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
               Today
             </div>
           </div>
           <div className="mb-2.5 mt-4 flex items-center justify-between px-1">
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#8a8d84" }}>Growth timeline</p>
-            <p className="text-xs" style={{ color: "#8a8d84" }}>{photos.length} check-ins</p>
+            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Growth timeline</p>
+            <p className="text-xs" style={{ color: "var(--muted)" }}>{photos.length} check-ins</p>
           </div>
           <div className="flex gap-2">
             {photos.map((p, i) => {
@@ -100,7 +100,7 @@ export default function DemoPage() {
 
         {/* Watering status */}
         <div className="mb-6 flex items-center gap-3 rounded-2xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-          <span className="text-xl">💧</span>
+          <span className="text-xl" aria-hidden="true">💧</span>
           <p className="text-sm" style={{ color: "var(--muted)" }}>Last watered 3 days ago</p>
         </div>
 
@@ -114,10 +114,10 @@ export default function DemoPage() {
                 return (
                   <div key={p.id} className="overflow-hidden rounded-2xl" style={{ border: "1px solid #ede8e0" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.img} alt={p.caption} className="h-64 w-full object-cover" />
+                    <img src={p.img} alt={`Monty: ${p.caption}`} className="h-64 w-full object-cover" />
                     <div className="flex items-center justify-between px-3.5 py-2.5" style={{ background: "var(--card)" }}>
                       <p className="text-sm" style={{ color: "var(--text)" }}>{p.caption}</p>
-                      <p className="shrink-0 pl-3 text-xs" style={{ color: "#9ca3af" }}>{p.date}</p>
+                      <p className="shrink-0 pl-3 text-xs" style={{ color: "var(--muted)" }}>{p.date}</p>
                     </div>
                   </div>
                 );
@@ -125,10 +125,10 @@ export default function DemoPage() {
               const n = item.data;
               return (
                 <div key={n.id} className="flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                  <span className="mt-0.5 text-base">📝</span>
+                  <span className="mt-0.5 text-base" aria-hidden="true">📝</span>
                   <div className="flex-1">
                     <p className="text-sm" style={{ color: "var(--text)" }}>{n.body}</p>
-                    <p className="mt-1 text-xs" style={{ color: "#9ca3af" }}>{n.date}</p>
+                    <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>{n.date}</p>
                   </div>
                 </div>
               );

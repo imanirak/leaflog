@@ -29,10 +29,10 @@ export default async function EditPlantPage({ params }: { params: Promise<{ id: 
   return (
     <div className="mx-auto max-w-lg p-8">
       <Link href={`/app/plants/${id}`} className="mb-6 inline-flex items-center gap-1 text-sm" style={{ color: "var(--muted)" }}>
-        ← Back
+        <span aria-hidden="true">←</span> Back
       </Link>
       <h1 className="mb-6 text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>Edit plant</h1>
-      <form action={action} className="space-y-5">
+      <form action={action} className="space-y-5" noValidate>
         <PlantFields
           defaults={{
             name: plant.name,
@@ -45,8 +45,8 @@ export default async function EditPlantPage({ params }: { params: Promise<{ id: 
         <div className="flex gap-3">
           <button
             type="submit"
-            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-            style={{ background: "var(--orange)" }}
+            className="rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-opacity hover:opacity-90"
+            style={{ background: "var(--orange)", color: "var(--navy)" }}
           >
             Save changes
           </button>
@@ -67,25 +67,27 @@ function PlantFields({ defaults }: { defaults: { name: string; species: string; 
   return (
     <>
       <div>
-        <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Name *</label>
-        <input name="name" required defaultValue={defaults.name} className={inputClass} style={inputStyle} />
+        <label htmlFor="edit-name" className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>
+          Name <span aria-hidden="true">*</span>
+        </label>
+        <input id="edit-name" name="name" required aria-required="true" defaultValue={defaults.name} className={inputClass} style={inputStyle} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Species</label>
-        <input name="species" defaultValue={defaults.species} placeholder="e.g. Monstera deliciosa" className={inputClass} style={inputStyle} />
+        <label htmlFor="edit-species" className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Species</label>
+        <input id="edit-species" name="species" defaultValue={defaults.species} placeholder="e.g. Monstera deliciosa" className={inputClass} style={inputStyle} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Room / location</label>
-        <input name="room" defaultValue={defaults.room} placeholder="e.g. Living room" className={inputClass} style={inputStyle} />
+        <label htmlFor="edit-room" className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Room / location</label>
+        <input id="edit-room" name="room" defaultValue={defaults.room} placeholder="e.g. Living room" className={inputClass} style={inputStyle} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Date acquired</label>
-        <input type="date" name="date_acquired" defaultValue={defaults.date_acquired} className={inputClass} style={inputStyle} />
+        <label htmlFor="edit-date" className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Date acquired</label>
+        <input id="edit-date" type="date" name="date_acquired" defaultValue={defaults.date_acquired} className={inputClass} style={inputStyle} />
       </div>
       <div>
-        <label className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Tags</label>
-        <input name="tags" defaultValue={defaults.tags} placeholder="tropical, low-light, propagated" className={inputClass} style={inputStyle} />
-        <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>Comma-separated</p>
+        <label htmlFor="edit-tags" className="mb-1.5 block text-sm font-medium" style={{ color: "var(--text)" }}>Tags</label>
+        <input id="edit-tags" name="tags" aria-describedby="edit-tags-hint" defaultValue={defaults.tags} placeholder="tropical, low-light, propagated" className={inputClass} style={inputStyle} />
+        <p id="edit-tags-hint" className="mt-1 text-xs" style={{ color: "var(--muted)" }}>Comma-separated</p>
       </div>
     </>
   );

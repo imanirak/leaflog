@@ -70,13 +70,13 @@ export default async function CareLogPage({
   return (
     <div className="mx-auto max-w-3xl p-8">
       <h1 className="mb-1 text-3xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>Care log</h1>
-      <p className="mb-6 text-sm" style={{ color: "var(--muted)" }}>A timeline of everything you've done for your plants.</p>
+      <p className="mb-6 text-sm" style={{ color: "var(--muted)" }}>A timeline of everything you&apos;ve done for your plants.</p>
 
       {/* Needs attention */}
       {needsWater.length > 0 && (
-        <div className="mb-6 rounded-2xl px-5 py-4" style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+        <div className="mb-6 rounded-2xl px-5 py-4" style={{ background: "#fef2f2", border: "1px solid #fecaca" }} role="status">
           <p className="mb-2 flex items-center gap-2 text-sm font-semibold" style={{ color: "#b91c1c" }}>
-            🔔 Needs attention — {needsWater.length} plant{needsWater.length !== 1 ? "s" : ""} overdue for water
+            <span aria-hidden="true">🔔</span> Needs attention — {needsWater.length} plant{needsWater.length !== 1 ? "s" : ""} overdue for water
           </p>
           <div className="flex flex-wrap gap-2">
             {needsWater.map(p => (
@@ -94,10 +94,11 @@ export default async function CareLogPage({
       )}
 
       {/* Filters */}
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9ca3af" }}>Plant</span>
+      <div className="mb-6 flex flex-wrap items-center gap-2" role="group" aria-label="Filter by plant">
+        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Plant</span>
         <Link
           href="/app/care-log"
+          aria-current={!params.plant ? "true" : undefined}
           className="rounded-full px-3 py-1.5 text-xs font-semibold"
           style={{ background: !params.plant ? "var(--navy)" : "var(--card)", color: !params.plant ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
         >
@@ -107,6 +108,7 @@ export default async function CareLogPage({
           <Link
             key={p.id}
             href={`/app/care-log?plant=${p.id}`}
+            aria-current={params.plant === p.id ? "true" : undefined}
             className="rounded-full px-3 py-1.5 text-xs font-semibold"
             style={{ background: params.plant === p.id ? "var(--navy)" : "var(--card)", color: params.plant === p.id ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
           >
@@ -115,12 +117,13 @@ export default async function CareLogPage({
         ))}
       </div>
 
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9ca3af" }}>Type</span>
+      <div className="mb-6 flex flex-wrap items-center gap-2" role="group" aria-label="Filter by care type">
+        <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Type</span>
         <Link
           href={params.plant ? `/app/care-log?plant=${params.plant}` : "/app/care-log"}
+          aria-current={!params.type ? "true" : undefined}
           className="rounded-full px-3 py-1.5 text-xs font-semibold"
-          style={{ background: !params.type ? "var(--orange)" : "var(--card)", color: !params.type ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
+          style={{ background: !params.type ? "var(--orange)" : "var(--card)", color: !params.type ? "var(--navy)" : "var(--muted)", border: "1px solid #ede8e0" }}
         >
           All
         </Link>
@@ -128,10 +131,11 @@ export default async function CareLogPage({
           <Link
             key={type}
             href={`/app/care-log?type=${type}${params.plant ? `&plant=${params.plant}` : ""}`}
+            aria-current={params.type === type ? "true" : undefined}
             className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold"
-            style={{ background: params.type === type ? "var(--orange)" : "var(--card)", color: params.type === type ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
+            style={{ background: params.type === type ? "var(--orange)" : "var(--card)", color: params.type === type ? "var(--navy)" : "var(--muted)", border: "1px solid #ede8e0" }}
           >
-            {CARE_META[type].emoji} {CARE_META[type].label}
+            <span aria-hidden="true">{CARE_META[type].emoji}</span> {CARE_META[type].label}
           </Link>
         ))}
       </div>
@@ -139,28 +143,28 @@ export default async function CareLogPage({
       {/* Timeline */}
       {entries.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
-          <div className="mb-3 text-5xl">📋</div>
+          <div className="mb-3 text-5xl" aria-hidden="true">📋</div>
           <p className="font-semibold" style={{ color: "var(--text)" }}>No care logged yet</p>
-          <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Visit a plant's page to log watering, fertilizing, and more.</p>
+          <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Visit a plant&apos;s page to log watering, fertilizing, and more.</p>
         </div>
       ) : (
         <div className="space-y-6">
           {[...grouped.entries()].map(([day, dayEntries]) => (
             <div key={day}>
-              <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: "#9ca3af" }}>{day}</p>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: "var(--muted)" }}>{day}</p>
               <div className="space-y-2">
                 {dayEntries.map(entry => {
                   const meta = CARE_META[entry.type];
                   return (
                     <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                      <span className="text-lg">{meta.emoji}</span>
+                      <span className="text-lg" aria-hidden="true">{meta.emoji}</span>
                       <div className="flex-1">
                         <p className="text-sm" style={{ color: "var(--text)" }}>
                           <span className="font-medium">{meta.label}</span>
                           {entry.plants && (
                             <>
                               {" "}·{" "}
-                              <Link href={`/app/plants/${entry.plants.id}`} className="hover:underline" style={{ color: "var(--orange)" }}>
+                              <Link href={`/app/plants/${entry.plants.id}`} className="hover:underline" style={{ color: "var(--orange-text)" }}>
                                 {entry.plants.name}
                               </Link>
                             </>
@@ -168,11 +172,18 @@ export default async function CareLogPage({
                         </p>
                         {entry.note && <p className="text-xs" style={{ color: "var(--muted)" }}>{entry.note}</p>}
                       </div>
-                      <p className="text-xs" style={{ color: "#9ca3af" }}>
+                      <p className="text-xs" style={{ color: "var(--muted)" }}>
                         {new Date(entry.logged_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
                       </p>
                       <form action={deleteCareEntry.bind(null, entry.id, entry.plants?.id ?? "")}>
-                        <button type="submit" className="hidden text-xs group-hover:block" style={{ color: "#d1d5db" }}>✕</button>
+                        <button
+                          type="submit"
+                          aria-label={`Delete ${meta.label.toLowerCase()} entry from ${day}`}
+                          className="flex h-8 w-8 items-center justify-center rounded-lg text-xs opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 hover:bg-red-50 hover:text-red-600"
+                          style={{ color: "var(--muted)" }}
+                        >
+                          ✕
+                        </button>
                       </form>
                     </div>
                   );

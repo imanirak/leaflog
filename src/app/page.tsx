@@ -45,7 +45,7 @@ export default function Home() {
       {/* Nav */}
       <header className="flex items-center justify-between px-8 py-6 sm:px-14">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl text-lg" style={{ background: "var(--orange)" }}>🌿</div>
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl text-lg" style={{ background: "var(--orange)" }} aria-hidden="true">🌿</div>
           <span className="text-xl font-bold" style={{ fontFamily: "var(--font-display)" }}>Leaflog</span>
         </Link>
         <div className="flex items-center gap-4">
@@ -63,7 +63,7 @@ export default function Home() {
       {/* Hero */}
       <section className="grid items-center gap-10 px-8 py-12 sm:px-14 sm:py-16 lg:grid-cols-2">
         <div>
-          <p className="mb-5 text-xs font-semibold uppercase tracking-widest" style={{ color: "#b85a16" }}>The houseplant diary</p>
+          <p className="mb-5 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--orange-text)" }}>The houseplant diary</p>
           <h1 className="mb-5 text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
             Watch them<br />grow.
           </h1>
@@ -86,7 +86,7 @@ export default function Home() {
               See an example
             </Link>
           </div>
-          <p className="mt-4 text-sm" style={{ color: "#8a8d84" }}>No card. No clutter. Just your plants.</p>
+          <p className="mt-4 text-sm" style={{ color: "var(--muted)" }}>No card. No clutter. Just your plants.</p>
         </div>
 
         {/* Hero visual */}
@@ -97,13 +97,13 @@ export default function Home() {
             <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
               Monty · Monstera deliciosa
             </div>
-            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold text-white" style={{ background: "var(--orange)" }}>
+            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
               Today
             </div>
           </div>
           <div className="mb-2.5 mt-4 flex items-center justify-between px-1">
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#8a8d84" }}>Growth timeline</p>
-            <p className="text-xs" style={{ color: "#8a8d84" }}>{timeline.length} check-ins</p>
+            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Growth timeline</p>
+            <p className="text-xs" style={{ color: "var(--muted)" }}>{timeline.length} check-ins</p>
           </div>
           <div className="flex gap-2">
             {timeline.map((f, i) => {
@@ -117,7 +117,7 @@ export default function Home() {
                     className="h-[54px] w-full rounded-lg object-cover"
                     style={{ border: isLast ? `2px solid var(--orange)` : "2px solid transparent" }}
                   />
-                  <p className="mt-1.5 text-xs font-semibold" style={{ color: isLast ? "#b85a16" : "#8a8d84" }}>{f.label}</p>
+                  <p className="mt-1.5 text-xs font-semibold" style={{ color: isLast ? "var(--orange-text)" : "var(--muted)" }}>{f.label}</p>
                 </div>
               );
             })}
@@ -128,7 +128,7 @@ export default function Home() {
       {/* Timeline showcase */}
       <section className="bg-white px-8 py-16 sm:px-14">
         <div className="mx-auto mb-11 max-w-xl text-center">
-          <p className="mb-3.5 text-xs font-semibold uppercase tracking-widest" style={{ color: "#b85a16" }}>The timeline writes itself</p>
+          <p className="mb-3.5 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--orange-text)" }}>The timeline writes itself</p>
           <h2 className="mb-3.5 text-4xl font-bold leading-tight tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
             One photo at a time, a whole story.
           </h2>
@@ -144,7 +144,7 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={f.url}
-                alt=""
+                alt={`Monty the monstera in ${f.label}: ${f.note}`}
                 className="w-full rounded-2xl object-cover shadow-md"
                 style={{ height: `${150 + (i / (timeline.length - 1)) * 96}px` }}
               />
@@ -165,7 +165,7 @@ export default function Home() {
           {features.map(ft => (
             <div key={ft.title} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={ft.img} alt="" className="w-full object-cover" style={{ height: 168 }} />
+              <img src={ft.img} alt={ft.title} className="w-full object-cover" style={{ height: 168 }} />
               <div className="p-6">
                 <h3 className="mb-2 text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{ft.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{ft.body}</p>
@@ -180,12 +180,12 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-0.5" style={{ background: "#0f1119" }}>
           <div className="relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={u(MONSTERA, { w: 440, h: 540, crop: "top", sat: -32, bri: -6 })} alt="Before" className="h-full w-full object-cover" />
+            <img src={u(MONSTERA, { w: 440, h: 540, crop: "top", sat: -32, bri: -6 })} alt="Monty 6 months ago — smaller, fewer leaves" className="h-full w-full object-cover" />
             <span className="absolute left-3.5 top-3.5 rounded-full px-2.5 py-1 text-xs font-bold text-white" style={{ background: "rgba(0,0,0,.5)" }}>Before</span>
           </div>
           <div className="relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={u(MONSTERA, { w: 440, h: 540, crop: "bottom" })} alt="After" className="h-full w-full object-cover" />
+            <img src={u(MONSTERA, { w: 440, h: 540, crop: "bottom" })} alt="Monty today — fuller and taller" className="h-full w-full object-cover" />
             <span className="absolute left-3.5 top-3.5 rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: "#9be7a8", color: "var(--navy)" }}>After</span>
           </div>
         </div>
@@ -199,8 +199,8 @@ export default function Home() {
           </p>
           <Link
             href="/signup"
-            className="inline-block w-fit rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            style={{ background: "var(--orange)" }}
+            className="inline-block w-fit rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+            style={{ background: "var(--orange)", color: "var(--navy)" }}
           >
             Compare your own
           </Link>
@@ -214,21 +214,21 @@ export default function Home() {
             <h2 className="mb-2 text-3xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Got a jungle? Show it off.</h2>
             <p className="max-w-md text-base" style={{ color: "var(--muted)" }}>Make your profile public and plant friends can follow along — or keep the whole thing just for you.</p>
           </div>
-          <span className="shrink-0 text-sm font-semibold" style={{ color: "#b85a16" }}>Explore profiles →</span>
+          <span className="shrink-0 text-sm font-semibold" style={{ color: "var(--orange-text)" }}>Explore profiles →</span>
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
           {profiles.map(pr => (
             <div key={pr.handle} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={pr.img} alt="" className="h-36 w-full object-cover" />
+              <img src={pr.img} alt={`A plant from ${pr.name}'s collection`} className="h-36 w-full object-cover" />
               <div className="p-5">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: pr.avatarBg, width: 38, height: 38 }}>
+                  <div className="flex shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: pr.avatarBg, width: 38, height: 38 }} aria-hidden="true">
                     {pr.initials}
                   </div>
                   <div className="leading-tight">
                     <p className="text-sm font-bold">{pr.name}</p>
-                    <p className="text-xs" style={{ color: "#8a8d84" }}>{pr.handle} · {pr.count} plants</p>
+                    <p className="text-xs" style={{ color: "var(--muted)" }}>{pr.handle} · {pr.count} plants</p>
                   </div>
                 </div>
                 <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{pr.blurb}</p>
@@ -258,7 +258,7 @@ export default function Home() {
         <div className="flex flex-col gap-10 sm:flex-row sm:justify-between">
           <div className="max-w-xs">
             <div className="mb-3 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl text-base" style={{ background: "var(--orange)" }}>🌿</div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl text-base" style={{ background: "var(--orange)" }} aria-hidden="true">🌿</div>
               <span className="text-lg font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>Leaflog</span>
             </div>
             <p className="text-sm leading-relaxed">A quiet place to track your houseplants — photos, notes, and a timeline of growth.</p>
@@ -266,7 +266,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-12">
             {footerCols.map(col => (
               <div key={col.head}>
-                <p className="mb-3.5 text-xs font-bold uppercase tracking-wider" style={{ color: "#6b7280" }}>{col.head}</p>
+                <p className="mb-3.5 text-xs font-bold uppercase tracking-wider" style={{ color: "#9ca3af" }}>{col.head}</p>
                 <div className="flex flex-col gap-2.5 text-sm">
                   {col.links.map(link => (
                     <span key={link}>{link}</span>
@@ -276,7 +276,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="mt-10 border-t pt-6 text-xs" style={{ borderColor: "var(--navy-border)", color: "#6b7280" }}>
+        <div className="mt-10 border-t pt-6 text-xs" style={{ borderColor: "var(--navy-border)", color: "#9ca3af" }}>
           © 2026 Leaflog · Grown with care.
         </div>
       </footer>

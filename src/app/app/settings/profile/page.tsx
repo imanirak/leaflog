@@ -29,11 +29,11 @@ export default async function ProfileSettingsPage() {
 
   return (
     <div className="mx-auto max-w-lg p-8">
-      <Link href="/app/profile" className="mb-6 inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-600">
-        ← Back to profile
+      <Link href="/app/profile" className="mb-6 inline-flex items-center gap-1 text-sm hover:text-stone-600" style={{ color: "var(--muted)" }}>
+        <span aria-hidden="true">←</span> Back to profile
       </Link>
       <h1 className="mb-1 text-2xl font-semibold" style={{ color: "#1c1f2e" }}>Profile settings</h1>
-      <p className="mb-8 text-sm text-stone-400">Control your public presence on Leaflog.</p>
+      <p className="mb-8 text-sm" style={{ color: "var(--muted)" }}>Control your public presence on Leaflog.</p>
       <ProfileForm profile={profile} avatarUrl={avatarUrl} daysUntilUsernameChange={daysUntilUsernameChange} />
     </div>
   );

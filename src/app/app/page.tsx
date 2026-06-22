@@ -71,12 +71,15 @@ export default async function LibraryPage({
           <Greeting name={displayName} />
           <h1 className="text-xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}>Your library</h1>
         </div>
-        <form method="GET" action="/app">
+        <form method="GET" action="/app" role="search">
           <div className="flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 shadow-sm" style={{ borderColor: "#e0d9d0" }}>
-            <svg className="h-4 w-4 shrink-0 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-4 w-4 shrink-0 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+            <label htmlFor="library-search" className="sr-only">Search plants, rooms, tags</label>
             <input
+              id="library-search"
+              type="search"
               name="q"
               defaultValue={params.q ?? ""}
               placeholder="Search plants, rooms, tags…"
@@ -97,7 +100,7 @@ export default async function LibraryPage({
               { label: "Tags", value: allTags.length, emoji: "🏷️" },
             ].map(({ label, value, emoji }) => (
               <div key={label} className="flex items-center gap-3 rounded-2xl p-4 shadow-sm" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: "var(--cream)" }}>{emoji}</div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: "var(--cream)" }} aria-hidden="true">{emoji}</div>
                 <div>
                   <p className="text-2xl font-bold leading-none" style={{ color: "var(--text)" }}>{value}</p>
                   <p className="mt-0.5 text-xs" style={{ color: "var(--muted)" }}>{label}</p>
@@ -109,10 +112,10 @@ export default async function LibraryPage({
 
         {/* Needs attention */}
         {needsWater.length > 0 && (
-          <div className="mb-6 rounded-2xl px-5 py-4" style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+          <div className="mb-6 rounded-2xl px-5 py-4" style={{ background: "#fef2f2", border: "1px solid #fecaca" }} role="status">
             <div className="flex items-center justify-between">
               <p className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#b91c1c" }}>
-                💧 {needsWater.length} plant{needsWater.length !== 1 ? "s" : ""} need{needsWater.length === 1 ? "s" : ""} water
+                <span aria-hidden="true">💧</span> {needsWater.length} plant{needsWater.length !== 1 ? "s" : ""} need{needsWater.length === 1 ? "s" : ""} water
               </p>
               <Link href="/app/care-log" className="text-xs font-medium hover:underline" style={{ color: "#b91c1c" }}>
                 View care log →
@@ -134,8 +137,8 @@ export default async function LibraryPage({
         )}
 
         {/* Filters */}
-        <div className="mb-5 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9ca3af" }}>View</span>
+        <div className="mb-5 flex flex-wrap items-center gap-2" role="group" aria-label="View options">
+          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)" }}>View</span>
           {[
             { label: "All", href: "/app", active: !groupBy && !params.tag },
             { label: "By Room", href: "/app?group=room", active: groupBy === "room" },
@@ -143,6 +146,7 @@ export default async function LibraryPage({
             <Link
               key={label}
               href={href}
+              aria-current={active ? "true" : undefined}
               className="rounded-full px-4 py-1.5 text-xs font-semibold transition-all"
               style={{
                 background: active ? "var(--navy)" : "var(--card)",
@@ -157,14 +161,14 @@ export default async function LibraryPage({
 
           {allTags.length > 0 && (
             <>
-              <span className="ml-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "#9ca3af" }}>Tags</span>
+              <span className="ml-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted)" }}>Tags</span>
               {params.tag && (
                 <Link
                   href="/app"
                   className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold"
-                  style={{ background: "var(--orange-light)", color: "var(--orange)", border: "1px solid #fed7aa" }}
+                  style={{ background: "var(--orange-light)", color: "var(--orange-text)", border: "1px solid #fed7aa" }}
                 >
-                  ✕ {params.tag}
+                  <span aria-hidden="true">✕</span> {params.tag}
                 </Link>
               )}
               {allTags.filter(t => t !== params.tag).map(tag => (
@@ -188,7 +192,7 @@ export default async function LibraryPage({
         {/* Empty state */}
         {filtered.length === 0 && (
           <div className="flex flex-col items-center justify-center rounded-3xl py-32 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
-            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl text-4xl" style={{ background: "var(--cream)" }}>🪴</div>
+            <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl text-4xl" style={{ background: "var(--cream)" }} aria-hidden="true">🪴</div>
             <p className="text-lg font-bold" style={{ color: "var(--text)" }}>No plants yet</p>
             <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Add your first plant to start your collection</p>
             <Link
@@ -208,7 +212,7 @@ export default async function LibraryPage({
               <div className="mb-4 mt-8 flex items-center gap-3">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--muted)" }}>{label}</span>
                 <span className="h-px flex-1" style={{ background: "#ddd5c8" }} />
-                <span className="text-xs" style={{ color: "#9ca3af" }}>{groupPlants.length}</span>
+                <span className="text-xs" style={{ color: "var(--muted)" }}>{groupPlants.length}</span>
               </div>
             )}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -228,11 +232,11 @@ export default async function LibraryPage({
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={`/api/photos/${cover.id}`}
-                          alt={plant.name}
+                          alt={`Most recent photo of ${plant.name}`}
                           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       ) : (
-                        <span className="text-5xl opacity-60">🌱</span>
+                        <span className="text-5xl opacity-60" aria-hidden="true">🌱</span>
                       )}
                     </div>
                     <div className="p-3.5">
@@ -242,7 +246,7 @@ export default async function LibraryPage({
                       )}
                       {plant.room && (
                         <p className="mt-1.5 flex items-center gap-1 text-xs" style={{ color: "var(--muted)" }}>
-                          📍 {plant.room}
+                          <span aria-hidden="true">📍</span> {plant.room}
                         </p>
                       )}
                       {plant.plant_tags.length > 0 && (
@@ -251,7 +255,7 @@ export default async function LibraryPage({
                             <span
                               key={t.tag}
                               className="rounded-full px-2 py-0.5 text-xs font-medium"
-                              style={{ background: "var(--orange-light)", color: "#c2410c" }}
+                              style={{ background: "var(--orange-light)", color: "var(--orange-text)" }}
                             >
                               #{t.tag}
                             </span>

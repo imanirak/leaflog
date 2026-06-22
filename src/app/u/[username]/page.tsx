@@ -48,8 +48,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             >
               {avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt={profile.display_name ?? profile.username} className="h-full w-full object-cover" />
-              ) : "🌿"}
+                <img src={avatarUrl} alt="" className="h-full w-full object-cover" />
+              ) : <span aria-hidden="true">🌿</span>}
             </div>
             <div>
               <h1 className="text-2xl font-bold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
@@ -76,7 +76,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/api/photos/${photo.id}`}
-                  alt={photo.caption ?? photo.plants?.name ?? "Plant photo"}
+                  alt={photo.caption ? `${photo.plants?.name ?? "Plant"}: ${photo.caption}` : `Photo of ${photo.plants?.name ?? "a plant"}`}
                   className="h-48 w-full object-cover"
                 />
                 <div className="p-3.5">
@@ -89,10 +89,12 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
                   {photo.caption && (
                     <p className="mt-1 text-xs" style={{ color: "var(--text)" }}>{photo.caption}</p>
                   )}
-                  <p className="mt-1 text-xs" style={{ color: "#9ca3af" }}>
-                    {new Date(photo.shared_at).toLocaleDateString("en-US", {
-                      month: "short", day: "numeric", year: "numeric",
-                    })}
+                  <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>
+                    <time dateTime={photo.shared_at}>
+                      {new Date(photo.shared_at).toLocaleDateString("en-US", {
+                        month: "short", day: "numeric", year: "numeric",
+                      })}
+                    </time>
                   </p>
                 </div>
               </div>
