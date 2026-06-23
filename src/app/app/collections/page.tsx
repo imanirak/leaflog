@@ -26,13 +26,13 @@ export default async function CollectionsPage() {
           required
           aria-required="true"
           placeholder="New collection name…"
-          className="flex-1 max-w-xs rounded-xl border bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400"
-          style={{ borderColor: "#ddd5c8" }}
+          className="flex-1 max-w-xs rounded-xl border bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-600"
+          style={{ borderColor: "#cfe3d6" }}
         />
         <button
           type="submit"
           className="rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm hover:opacity-90"
-          style={{ background: "var(--orange)", color: "var(--navy)" }}
+          style={{ background: "var(--orange)", color: "#ffffff" }}
         >
           Create
         </button>
@@ -45,7 +45,7 @@ export default async function CollectionsPage() {
               key={col.id}
               href={`/app/collections/${col.id}`}
               className="rounded-2xl p-5 shadow-sm transition-shadow hover:shadow-md"
-              style={{ background: "var(--card)", border: "1px solid #ede8e0" }}
+              style={{ background: "var(--card)", border: "1px solid #d9e8de" }}
             >
               <div className="mb-2 text-3xl" aria-hidden="true">📁</div>
               <p className="font-semibold" style={{ color: "var(--text)" }}>{col.name}</p>
@@ -56,7 +56,7 @@ export default async function CollectionsPage() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
+        <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #cfe3d6" }}>
           <div className="mb-3 text-5xl" aria-hidden="true">📁</div>
           <p style={{ color: "var(--muted)" }}>No collections yet. Create one above.</p>
         </div>

@@ -74,14 +74,14 @@ export default function Home() {
             <Link
               href="/signup"
               className="rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-lg transition-opacity hover:opacity-90"
-              style={{ background: "var(--orange)", boxShadow: "0 8px 22px rgba(249,115,22,.32)" }}
+              style={{ background: "var(--orange)", boxShadow: "0 8px 22px rgba(45,106,79,.32)" }}
             >
               Start your diary — free
             </Link>
             <Link
               href="/demo"
               className="rounded-xl border px-5 py-3.5 text-base font-semibold transition-colors hover:bg-black/5"
-              style={{ borderColor: "#cfc8bb", color: "var(--text)" }}
+              style={{ borderColor: "#b9d6c4", color: "var(--text)" }}
             >
               See an example
             </Link>
@@ -94,10 +94,10 @@ export default function Home() {
           <div className="relative overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={u(MONSTERA, { w: 760, h: 660 })} alt="Monty the monstera" className="h-[330px] w-full object-cover" />
-            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
+            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(20,48,31,.62)" }}>
               Monty · Monstera deliciosa
             </div>
-            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
+            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "#ffffff" }}>
               Today
             </div>
           </div>
@@ -134,8 +134,8 @@ export default function Home() {
           </h2>
           <p className="text-base leading-relaxed" style={{ color: "var(--muted)" }}>
             Every check-in lands on the timeline in order. The notes ride right alongside, so the{" "}
-            <em className="not-italic font-medium" style={{ color: "#2f6b41" }}>why</em> never gets separated from the{" "}
-            <em className="not-italic font-medium" style={{ color: "#2f6b41" }}>what changed</em>.
+            <em className="not-italic font-medium" style={{ color: "#1f6e4c" }}>why</em> never gets separated from the{" "}
+            <em className="not-italic font-medium" style={{ color: "#1f6e4c" }}>what changed</em>.
           </p>
         </div>
         <div className="flex flex-wrap items-end justify-center gap-6 px-2">
@@ -163,7 +163,7 @@ export default function Home() {
         <h2 className="mb-9 text-3xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Everything rides together.</h2>
         <div className="grid gap-6 sm:grid-cols-3">
           {features.map(ft => (
-            <div key={ft.title} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
+            <div key={ft.title} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #d9e8de" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={ft.img} alt={ft.title} className="w-full object-cover" style={{ height: 168 }} />
               <div className="p-6">
@@ -200,7 +200,7 @@ export default function Home() {
           <Link
             href="/signup"
             className="inline-block w-fit rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-            style={{ background: "var(--orange)", color: "var(--navy)" }}
+            style={{ background: "var(--orange)", color: "#ffffff" }}
           >
             Compare your own
           </Link>
@@ -218,7 +218,7 @@ export default function Home() {
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
           {profiles.map(pr => (
-            <div key={pr.handle} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #ece6db" }}>
+            <div key={pr.handle} className="overflow-hidden rounded-2xl bg-white" style={{ border: "1px solid #d9e8de" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={pr.img} alt={`A plant from ${pr.name}'s collection`} className="h-36 w-full object-cover" />
               <div className="p-5">
@@ -239,11 +239,11 @@ export default function Home() {
       </section>
 
       {/* Free CTA */}
-      <section className="mx-8 mb-16 rounded-3xl px-8 py-14 text-center sm:mx-14" style={{ background: "#e7f0e3" }}>
+      <section className="mx-8 mb-16 rounded-3xl px-8 py-14 text-center sm:mx-14" style={{ background: "#dff3e6" }}>
         <h2 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontFamily: "var(--font-display)" }}>
           It&apos;s free. Go log a plant.
         </h2>
-        <p className="mb-7 text-base" style={{ color: "#42583f" }}>Start with one. You&apos;ll have a timeline before you know it.</p>
+        <p className="mb-7 text-base" style={{ color: "#1f6e4c" }}>Start with one. You&apos;ll have a timeline before you know it.</p>
         <Link
           href="/signup"
           className="inline-block rounded-2xl px-8 py-4 text-base font-semibold text-white transition-opacity hover:opacity-90"

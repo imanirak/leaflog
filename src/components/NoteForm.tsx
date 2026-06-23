@@ -24,12 +24,12 @@ export default function NoteForm({ plantId }: { plantId: string }) {
         placeholder="Add a note…"
         rows={2}
         className="flex-1 resize-none rounded-xl border bg-white px-4 py-2.5 text-sm outline-none"
-        style={{ borderColor: "#ddd5c8" }}
+        style={{ borderColor: "#cfe3d6" }}
       />
       <button
         type="submit"
         className="self-end rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm hover:opacity-90"
-        style={{ background: "var(--orange)", color: "var(--navy)" }}
+        style={{ background: "var(--orange)", color: "#ffffff" }}
       >
         Save
       </button>

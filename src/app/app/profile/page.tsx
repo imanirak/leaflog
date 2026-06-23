@@ -139,7 +139,7 @@ export default async function MyProfilePage() {
       <div className="px-8 py-6">
         {/* No profile prompt */}
         {!profile && (
-          <div className="mb-6 flex items-center gap-4 rounded-2xl p-5 shadow-sm" style={{ background: "var(--card)", border: "1px solid #fed7aa" }}>
+          <div className="mb-6 flex items-center gap-4 rounded-2xl p-5 shadow-sm" style={{ background: "var(--card)", border: "1px solid #b7e4c7" }}>
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: "var(--orange-light)" }} aria-hidden="true">🪪</div>
             <div className="flex-1">
               <p className="font-semibold" style={{ color: "var(--text)" }}>Set up your profile</p>
@@ -148,7 +148,7 @@ export default async function MyProfilePage() {
             <Link
               href="/app/settings/profile"
               className="shrink-0 rounded-xl px-4 py-2 text-sm font-semibold"
-              style={{ background: "var(--orange)", color: "var(--navy)" }}
+              style={{ background: "var(--orange)", color: "#ffffff" }}
             >
               Set up →
             </Link>
@@ -175,7 +175,7 @@ export default async function MyProfilePage() {
             <Link
               href="/app"
               className="mt-5 rounded-xl px-5 py-2.5 text-sm font-semibold"
-              style={{ background: "var(--orange)", color: "var(--navy)" }}
+              style={{ background: "var(--orange)", color: "#ffffff" }}
             >
               Go to my plants
             </Link>

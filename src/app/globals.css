@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --navy: #1c1f2e;
-  --navy-light: #262a3d;
-  --navy-border: #2a2e42;
-  --cream: #f0ebe3;
-  --cream-dark: #e8e2d9;
-  --orange: #f97316;
-  --orange-light: #fff0e6;
-  /* Darker than --orange specifically for use as TEXT/foreground color — #f97316 only
-     reaches ~2.4:1 contrast on cream/white and fails WCAG AA 4.5:1. Use this for any
-     orange text, links, or icons; keep --orange for backgrounds/decorative use. */
-  --orange-text: #9a3412;
+  /* Forest green brand palette. Variable names (--navy, --orange, etc.) are kept
+     from the prior navy/orange scheme so every existing var() reference repaints
+     automatically — only the hex values changed. */
+  --navy: #14301f;
+  --navy-light: #1d4029;
+  --navy-border: #28502f;
+  --cream: #eef2ea;
+  --cream-dark: #e2e8de;
+  --orange: #2d6a4f;
+  --orange-light: #dff3e6;
+  /* Distinct mid-forest shade for TEXT/foreground use (links, tags, active states),
+     verified ~5.4:1 on --cream/white — passes WCAG AA 4.5:1 directly, unlike the old
+     orange which needed a separate darkened text variant. */
+  --orange-text: #1f6e4c;
   --card: #ffffff;
-  --text: #1c1f2e;
-  /* Darkened from #6b7280 to meet WCAG AA 4.5:1 contrast on cream/white backgrounds */
-  --muted: #4b5563;
-  --border: #e5e7eb;
+  --text: #14301f;
+  /* Olive-green-gray, verified ~5.3:1 on --cream/white for WCAG AA */
+  --muted: #4a6657;
+  --border: #dbe5dd;
   --font-display: var(--font-lora), Georgia, serif;
   --font-sans: var(--font-geist), system-ui, sans-serif;
 }

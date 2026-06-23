@@ -69,7 +69,7 @@ export default function PhotoUpload({ plantId }: { plantId: string }) {
           onDrop={e => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
           className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-8 text-center transition-colors"
           style={{
-            borderColor: dragOver ? "var(--orange)" : "#ddd5c8",
+            borderColor: dragOver ? "var(--orange)" : "#cfe3d6",
             background: dragOver ? "var(--orange-light)" : "var(--card)",
           }}
         >
@@ -102,13 +102,13 @@ export default function PhotoUpload({ plantId }: { plantId: string }) {
             name="caption"
             placeholder="Caption (optional)"
             className="flex-1 min-w-36 rounded-xl border bg-white px-4 py-2.5 text-sm outline-none"
-            style={{ borderColor: "#ddd5c8" }}
+            style={{ borderColor: "#cfe3d6" }}
           />
           <button
             type="submit"
             disabled={uploading || !fileName}
             className="rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-opacity hover:opacity-90 disabled:opacity-40"
-            style={{ background: "var(--orange)", color: "var(--navy)" }}
+            style={{ background: "var(--orange)", color: "#ffffff" }}
           >
             {uploading ? "Uploading…" : "Upload photo"}
           </button>
@@ -141,14 +141,14 @@ export default function PhotoUpload({ plantId }: { plantId: string }) {
                     ref={shareButtonRef}
                     onClick={handleShare}
                     className="flex-1 rounded-xl py-2.5 text-sm font-medium hover:opacity-90"
-                    style={{ background: "var(--orange)", color: "var(--navy)" }}
+                    style={{ background: "var(--orange)", color: "#ffffff" }}
                   >
                     Share to profile
                   </button>
                   <button
                     onClick={() => setSharePrompt(null)}
                     className="flex-1 rounded-xl border py-2.5 text-sm hover:bg-stone-50"
-                    style={{ borderColor: "#ddd5c8", color: "var(--text)" }}
+                    style={{ borderColor: "#cfe3d6", color: "var(--text)" }}
                   >
                     Keep private
                   </button>

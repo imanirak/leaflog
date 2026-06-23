@@ -38,7 +38,7 @@ export default function QuickLogCare({ plantId }: { plantId: string }) {
             className="flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-medium transition-all disabled:opacity-50"
             style={{
               background: justLogged === type ? "var(--orange-light)" : "var(--card)",
-              borderColor: justLogged === type ? "var(--orange)" : "#ede8e0",
+              borderColor: justLogged === type ? "var(--orange)" : "#d9e8de",
               color: justLogged === type ? "var(--orange-text)" : "var(--text)",
             }}
           >

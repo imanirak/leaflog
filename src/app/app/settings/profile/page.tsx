@@ -32,7 +32,7 @@ export default async function ProfileSettingsPage() {
       <Link href="/app/profile" className="mb-6 inline-flex items-center gap-1 text-sm hover:text-stone-600" style={{ color: "var(--muted)" }}>
         <span aria-hidden="true">←</span> Back to profile
       </Link>
-      <h1 className="mb-1 text-2xl font-semibold" style={{ color: "#1c1f2e" }}>Profile settings</h1>
+      <h1 className="mb-1 text-2xl font-semibold" style={{ color: "var(--text)" }}>Profile settings</h1>
       <p className="mb-8 text-sm" style={{ color: "var(--muted)" }}>Control your public presence on Leaflog.</p>
       <ProfileForm profile={profile} avatarUrl={avatarUrl} daysUntilUsernameChange={daysUntilUsernameChange} />
     </div>

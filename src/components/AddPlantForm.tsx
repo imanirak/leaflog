@@ -28,8 +28,8 @@ export default function AddPlantForm({
         id={selectId}
         value={selectedId}
         onChange={e => setSelectedId(e.target.value)}
-        className="flex-1 max-w-xs rounded-xl border bg-white px-4 py-2 text-sm outline-none focus:border-orange-400"
-        style={{ borderColor: "#ddd5c8" }}
+        className="flex-1 max-w-xs rounded-xl border bg-white px-4 py-2 text-sm outline-none focus:border-emerald-600"
+        style={{ borderColor: "#cfe3d6" }}
       >
         {plants.map(p => (
           <option key={p.id} value={p.id}>{p.name}</option>
@@ -38,7 +38,7 @@ export default function AddPlantForm({
       <button
         type="submit"
         className="rounded-xl px-4 py-2 text-sm font-semibold shadow-sm hover:opacity-90"
-        style={{ background: "var(--orange)", color: "var(--navy)" }}
+        style={{ background: "var(--orange)", color: "#ffffff" }}
       >
         Add plant
       </button>

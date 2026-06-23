@@ -84,7 +84,7 @@ export default function ProfileForm({
               </span>
             )}
           </div>
-          <div className="flex items-center rounded-xl border border-stone-200 bg-white px-4 focus-within:border-orange-400 focus-within:ring-2 focus-within:ring-orange-100">
+          <div className="flex items-center rounded-xl border border-stone-200 bg-white px-4 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100">
             <span className="shrink-0 text-sm text-stone-400" aria-hidden="true">/u/</span>
             <input
               id={usernameId}
@@ -111,7 +111,7 @@ export default function ProfileForm({
             name="display_name"
             defaultValue={profile?.display_name ?? ""}
             placeholder="e.g. Karina's Plant Shelf"
-            className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+            className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           />
         </div>
 
@@ -123,7 +123,7 @@ export default function ProfileForm({
             defaultValue={profile?.bio ?? ""}
             placeholder="Tell the world about your plant collection…"
             rows={3}
-            className="w-full resize-none rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+            className="w-full resize-none rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           />
         </div>
 
@@ -176,7 +176,7 @@ export default function ProfileForm({
           type="submit"
           disabled={pending}
           className="rounded-xl px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50"
-          style={{ background: "var(--orange)", color: "var(--navy)" }}
+          style={{ background: "var(--orange)", color: "#ffffff" }}
         >
           {pending ? "Saving…" : saved ? "✓ Saved!" : "Save profile"}
         </button>

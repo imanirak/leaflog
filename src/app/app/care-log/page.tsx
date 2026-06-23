@@ -100,7 +100,7 @@ export default async function CareLogPage({
           href="/app/care-log"
           aria-current={!params.plant ? "true" : undefined}
           className="rounded-full px-3 py-1.5 text-xs font-semibold"
-          style={{ background: !params.plant ? "var(--navy)" : "var(--card)", color: !params.plant ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
+          style={{ background: !params.plant ? "var(--navy)" : "var(--card)", color: !params.plant ? "white" : "var(--muted)", border: "1px solid #d9e8de" }}
         >
           All
         </Link>
@@ -110,7 +110,7 @@ export default async function CareLogPage({
             href={`/app/care-log?plant=${p.id}`}
             aria-current={params.plant === p.id ? "true" : undefined}
             className="rounded-full px-3 py-1.5 text-xs font-semibold"
-            style={{ background: params.plant === p.id ? "var(--navy)" : "var(--card)", color: params.plant === p.id ? "white" : "var(--muted)", border: "1px solid #ede8e0" }}
+            style={{ background: params.plant === p.id ? "var(--navy)" : "var(--card)", color: params.plant === p.id ? "white" : "var(--muted)", border: "1px solid #d9e8de" }}
           >
             {p.name}
           </Link>
@@ -123,7 +123,7 @@ export default async function CareLogPage({
           href={params.plant ? `/app/care-log?plant=${params.plant}` : "/app/care-log"}
           aria-current={!params.type ? "true" : undefined}
           className="rounded-full px-3 py-1.5 text-xs font-semibold"
-          style={{ background: !params.type ? "var(--orange)" : "var(--card)", color: !params.type ? "var(--navy)" : "var(--muted)", border: "1px solid #ede8e0" }}
+          style={{ background: !params.type ? "var(--orange)" : "var(--card)", color: !params.type ? "#ffffff" : "var(--muted)", border: "1px solid #d9e8de" }}
         >
           All
         </Link>
@@ -133,7 +133,7 @@ export default async function CareLogPage({
             href={`/app/care-log?type=${type}${params.plant ? `&plant=${params.plant}` : ""}`}
             aria-current={params.type === type ? "true" : undefined}
             className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold"
-            style={{ background: params.type === type ? "var(--orange)" : "var(--card)", color: params.type === type ? "var(--navy)" : "var(--muted)", border: "1px solid #ede8e0" }}
+            style={{ background: params.type === type ? "var(--orange)" : "var(--card)", color: params.type === type ? "#ffffff" : "var(--muted)", border: "1px solid #d9e8de" }}
           >
             <span aria-hidden="true">{CARE_META[type].emoji}</span> {CARE_META[type].label}
           </Link>
@@ -142,7 +142,7 @@ export default async function CareLogPage({
 
       {/* Timeline */}
       {entries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
+        <div className="flex flex-col items-center justify-center rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #cfe3d6" }}>
           <div className="mb-3 text-5xl" aria-hidden="true">📋</div>
           <p className="font-semibold" style={{ color: "var(--text)" }}>No care logged yet</p>
           <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Visit a plant&apos;s page to log watering, fertilizing, and more.</p>
@@ -156,7 +156,7 @@ export default async function CareLogPage({
                 {dayEntries.map(entry => {
                   const meta = CARE_META[entry.type];
                   return (
-                    <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+                    <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                       <span className="text-lg" aria-hidden="true">{meta.emoji}</span>
                       <div className="flex-1">
                         <p className="text-sm" style={{ color: "var(--text)" }}>

@@ -121,7 +121,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           <Link
             href={`/app/plants/${id}/edit`}
             className="rounded-lg border px-3 py-1.5 text-sm transition-colors hover:bg-stone-50"
-            style={{ borderColor: "#ede8e0", color: "var(--text)" }}
+            style={{ borderColor: "#d9e8de", color: "var(--text)" }}
           >
             Edit
           </Link>
@@ -130,8 +130,8 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
       </div>
 
       {/* Hero photo + growth filmstrip */}
-      <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #ede8e0" }}>
-        <div className="relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0" }}>
+      <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #d9e8de" }}>
+        <div className="relative overflow-hidden rounded-2xl" style={{ background: "#d9e8de" }}>
           {hero ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -145,7 +145,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
             </div>
           )}
           {hero && (
-            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
+            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(20,48,31,.62)" }}>
               {plant.name}{plant.species ? ` · ${plant.species}` : ""}
             </div>
           )}
@@ -189,7 +189,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
           className="mb-6 flex items-center gap-3 rounded-2xl px-4 py-3"
           style={{
             background: daysSinceWatered >= 7 ? "#fef2f2" : "var(--card)",
-            border: `1px solid ${daysSinceWatered >= 7 ? "#fecaca" : "#ede8e0"}`,
+            border: `1px solid ${daysSinceWatered >= 7 ? "#fecaca" : "#d9e8de"}`,
           }}
         >
           <span className="text-xl" aria-hidden="true">💧</span>
@@ -211,7 +211,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
               const meta = CARE_META[entry.type];
               const entryDate = new Date(entry.logged_at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
               return (
-                <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-3 py-2" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+                <div key={entry.id} className="group flex items-center gap-3 rounded-xl px-3 py-2" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                   <span className="text-base" aria-hidden="true">{meta.emoji}</span>
                   <p className="flex-1 text-sm" style={{ color: "var(--text)" }}>{meta.label}</p>
                   <p className="text-xs" style={{ color: "var(--muted)" }}>{entryDate}</p>
@@ -248,7 +248,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
       <section aria-labelledby="timeline-heading">
         <h2 id="timeline-heading" className="mb-4 text-lg font-semibold" style={{ color: "var(--text)" }}>Timeline</h2>
         {timeline.length === 0 ? (
-          <div className="rounded-2xl py-16 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
+          <div className="rounded-2xl py-16 text-center" style={{ background: "var(--card)", border: "2px dashed #cfe3d6" }}>
             <div className="mb-2 text-3xl" aria-hidden="true">🌱</div>
             <p className="text-sm" style={{ color: "var(--muted)" }}>Nothing logged yet — add a photo or note above to start the story.</p>
           </div>
@@ -263,7 +263,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
                       const photo = item.photo;
                       const photoTime = new Date(photo.taken_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
                       return (
-                        <div key={`photo-${photo.id}`} className="group relative overflow-hidden rounded-2xl" style={{ background: "#ede8e0", border: "1px solid #ede8e0" }}>
+                        <div key={`photo-${photo.id}`} className="group relative overflow-hidden rounded-2xl" style={{ background: "#d9e8de", border: "1px solid #d9e8de" }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={`/api/photos/${photo.id}`}
@@ -271,7 +271,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
                             className="h-64 w-full object-cover"
                           />
                           {photo.is_shared && (
-                            <div className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
+                            <div className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: "var(--orange)", color: "#ffffff" }}>
                               Shared
                             </div>
                           )}
@@ -279,7 +279,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
                             {photo.caption && <p className="text-sm text-white">{photo.caption}</p>}
                             <div className="ml-auto flex gap-3">
                               <form action={photo.is_shared ? unsharePhoto.bind(null, photo.id, id) : sharePhoto.bind(null, photo.id, id)}>
-                                <button type="submit" className="text-xs font-medium text-orange-200 underline-offset-2 hover:underline focus-visible:opacity-100">
+                                <button type="submit" className="text-xs font-medium text-emerald-200 underline-offset-2 hover:underline focus-visible:opacity-100">
                                   {photo.is_shared ? "Unshare" : "Share"}
                                 </button>
                               </form>
@@ -298,7 +298,7 @@ export default async function PlantDetailPage({ params }: { params: Promise<{ id
                     const note = item.note;
                     const noteTime = new Date(note.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
                     return (
-                      <div key={`note-${note.id}`} className="group flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+                      <div key={`note-${note.id}`} className="group flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                         <span className="mt-0.5 text-base" aria-hidden="true">📝</span>
                         <div className="flex-1">
                           <p className="whitespace-pre-wrap text-sm" style={{ color: "var(--text)" }}>{note.body}</p>

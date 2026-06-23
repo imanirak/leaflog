@@ -39,7 +39,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   return (
     <main className="min-h-screen" style={{ background: "var(--cream)" }}>
       {/* Header */}
-      <div className="border-b" style={{ background: "var(--card)", borderColor: "#ede8e0" }}>
+      <div className="border-b" style={{ background: "var(--card)", borderColor: "#d9e8de" }}>
         <div className="mx-auto max-w-3xl px-6 py-10">
           <div className="flex items-center gap-6">
             <div
@@ -66,13 +66,13 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       {/* Photo grid */}
       <div className="mx-auto max-w-3xl px-6 py-8">
         {photos.length === 0 ? (
-          <div className="rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8", color: "var(--muted)" }}>
+          <div className="rounded-3xl py-24 text-center" style={{ background: "var(--card)", border: "2px dashed #cfe3d6", color: "var(--muted)" }}>
             No shared updates yet.
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {photos.map(photo => (
-              <div key={photo.id} className="overflow-hidden rounded-2xl shadow-sm" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+              <div key={photo.id} className="overflow-hidden rounded-2xl shadow-sm" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/api/photos/${photo.id}`}

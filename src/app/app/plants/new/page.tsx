@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { addPlant } from "@/lib/actions";
 
-const inputClass = "w-full rounded-xl border bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-orange-400";
-const inputStyle = { borderColor: "#ddd5c8" };
+const inputClass = "w-full rounded-xl border bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-emerald-600";
+const inputStyle = { borderColor: "#cfe3d6" };
 
 export default function NewPlantPage() {
   return (
@@ -39,14 +39,14 @@ export default function NewPlantPage() {
           <button
             type="submit"
             className="rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-opacity hover:opacity-90"
-            style={{ background: "var(--orange)", color: "var(--navy)" }}
+            style={{ background: "var(--orange)", color: "#ffffff" }}
           >
             Add plant
           </button>
           <Link
             href="/app"
             className="rounded-xl border px-5 py-2.5 text-sm hover:bg-stone-50"
-            style={{ borderColor: "#ddd5c8", color: "var(--text)" }}
+            style={{ borderColor: "#cfe3d6", color: "var(--text)" }}
           >
             Cancel
           </Link>

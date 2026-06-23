@@ -72,7 +72,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
             if (!plant) return null;
             const removeAction = removePlantFromCollection.bind(null, id, plant.id);
             return (
-              <div key={plant.id} className="group rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+              <div key={plant.id} className="group rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                 <Link href={`/app/plants/${plant.id}`} className="block">
                   <div className="mb-1 text-2xl" aria-hidden="true">🌱</div>
                   <p className="font-semibold transition-colors" style={{ color: "var(--text)" }}>{plant.name}</p>

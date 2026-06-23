@@ -66,13 +66,13 @@ export default async function LibraryPage({
   return (
     <div>
       {/* Top bar */}
-      <div className="sticky top-0 z-10 flex items-center gap-4 border-b px-8 py-3" style={{ background: "var(--cream)", borderColor: "#ddd5c8" }}>
+      <div className="sticky top-0 z-10 flex items-center gap-4 border-b px-8 py-3" style={{ background: "var(--cream)", borderColor: "#cfe3d6" }}>
         <div className="flex-1">
           <Greeting name={displayName} />
           <h1 className="text-xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}>Your library</h1>
         </div>
         <form method="GET" action="/app" role="search">
-          <div className="flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 shadow-sm" style={{ borderColor: "#e0d9d0" }}>
+          <div className="flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 shadow-sm" style={{ borderColor: "#d3e6da" }}>
             <svg className="h-4 w-4 shrink-0 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -99,7 +99,7 @@ export default async function LibraryPage({
               { label: "Rooms", value: rooms.length, emoji: "🏠" },
               { label: "Tags", value: allTags.length, emoji: "🏷️" },
             ].map(({ label, value, emoji }) => (
-              <div key={label} className="flex items-center gap-3 rounded-2xl p-4 shadow-sm" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+              <div key={label} className="flex items-center gap-3 rounded-2xl p-4 shadow-sm" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xl" style={{ background: "var(--cream)" }} aria-hidden="true">{emoji}</div>
                 <div>
                   <p className="text-2xl font-bold leading-none" style={{ color: "var(--text)" }}>{value}</p>
@@ -151,7 +151,7 @@ export default async function LibraryPage({
               style={{
                 background: active ? "var(--navy)" : "var(--card)",
                 color: active ? "white" : "var(--muted)",
-                border: `1px solid ${active ? "var(--navy)" : "#ede8e0"}`,
+                border: `1px solid ${active ? "var(--navy)" : "#d9e8de"}`,
                 boxShadow: active ? "none" : "0 1px 2px rgba(0,0,0,0.04)",
               }}
             >
@@ -166,7 +166,7 @@ export default async function LibraryPage({
                 <Link
                   href="/app"
                   className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold"
-                  style={{ background: "var(--orange-light)", color: "var(--orange-text)", border: "1px solid #fed7aa" }}
+                  style={{ background: "var(--orange-light)", color: "var(--orange-text)", border: "1px solid #b7e4c7" }}
                 >
                   <span aria-hidden="true">✕</span> {params.tag}
                 </Link>
@@ -176,7 +176,7 @@ export default async function LibraryPage({
                   key={tag}
                   href={`/app?tag=${encodeURIComponent(tag)}`}
                   className="rounded-full px-3 py-1.5 text-xs font-medium transition-colors hover:bg-stone-100"
-                  style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid #ede8e0" }}
+                  style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid #d9e8de" }}
                 >
                   #{tag}
                 </Link>
@@ -191,14 +191,14 @@ export default async function LibraryPage({
 
         {/* Empty state */}
         {filtered.length === 0 && (
-          <div className="flex flex-col items-center justify-center rounded-3xl py-32 text-center" style={{ background: "var(--card)", border: "2px dashed #ddd5c8" }}>
+          <div className="flex flex-col items-center justify-center rounded-3xl py-32 text-center" style={{ background: "var(--card)", border: "2px dashed #cfe3d6" }}>
             <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl text-4xl" style={{ background: "var(--cream)" }} aria-hidden="true">🪴</div>
             <p className="text-lg font-bold" style={{ color: "var(--text)" }}>No plants yet</p>
             <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>Add your first plant to start your collection</p>
             <Link
               href="/app/plants/new"
               className="mt-6 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:opacity-90 active:scale-95"
-              style={{ background: "var(--orange)", boxShadow: "0 4px 12px rgba(249,115,22,0.35)" }}
+              style={{ background: "var(--orange)", boxShadow: "0 4px 12px rgba(45,106,79,0.35)" }}
             >
               + Add a plant
             </Link>
@@ -211,7 +211,7 @@ export default async function LibraryPage({
             {groupBy && (
               <div className="mb-4 mt-8 flex items-center gap-3">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--muted)" }}>{label}</span>
-                <span className="h-px flex-1" style={{ background: "#ddd5c8" }} />
+                <span className="h-px flex-1" style={{ background: "#cfe3d6" }} />
                 <span className="text-xs" style={{ color: "var(--muted)" }}>{groupPlants.length}</span>
               </div>
             )}
@@ -225,9 +225,9 @@ export default async function LibraryPage({
                     key={plant.id}
                     href={`/app/plants/${plant.id}`}
                     className="group overflow-hidden rounded-2xl shadow-sm transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                    style={{ background: "var(--card)", border: "1px solid #ede8e0" }}
+                    style={{ background: "var(--card)", border: "1px solid #d9e8de" }}
                   >
-                    <div className="relative flex h-44 items-center justify-center overflow-hidden" style={{ background: "#ede8e0" }}>
+                    <div className="relative flex h-44 items-center justify-center overflow-hidden" style={{ background: "#d9e8de" }}>
                       {cover ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img

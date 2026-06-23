@@ -37,7 +37,7 @@ export default function DemoPage() {
       {/* Demo banner */}
       <div className="flex items-center justify-center gap-3 px-6 py-3 text-center text-sm font-medium text-white" style={{ background: "var(--navy)" }}>
         <span>🌿 You&apos;re viewing a sample plant page — Monty isn&apos;t real (but your plants can be).</span>
-        <Link href="/signup" className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
+        <Link href="/signup" className="rounded-full px-3 py-1 text-xs font-bold" style={{ background: "var(--orange)", color: "#ffffff" }}>
           Start your diary →
         </Link>
       </div>
@@ -65,14 +65,14 @@ export default function DemoPage() {
         </div>
 
         {/* Hero + filmstrip */}
-        <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #ede8e0" }}>
+        <div className="mb-6 rounded-3xl bg-white p-3 shadow-sm" style={{ border: "1px solid #d9e8de" }}>
           <div className="relative overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photos[photos.length - 1].img} alt="Most recent photo of Monty the monstera" className="h-72 w-full object-cover" />
-            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(28,31,46,.62)" }}>
+            <div className="absolute left-3.5 top-3.5 rounded-full px-3 py-1.5 text-xs font-semibold text-white backdrop-blur" style={{ background: "rgba(20,48,31,.62)" }}>
               Monty · Monstera deliciosa
             </div>
-            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "var(--navy)" }}>
+            <div className="absolute bottom-3.5 right-3.5 rounded-full px-3 py-1.5 text-xs font-bold" style={{ background: "var(--orange)", color: "#ffffff" }}>
               Today
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function DemoPage() {
         </div>
 
         {/* Watering status */}
-        <div className="mb-6 flex items-center gap-3 rounded-2xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+        <div className="mb-6 flex items-center gap-3 rounded-2xl px-4 py-3" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
           <span className="text-xl" aria-hidden="true">💧</span>
           <p className="text-sm" style={{ color: "var(--muted)" }}>Last watered 3 days ago</p>
         </div>
@@ -112,7 +112,7 @@ export default function DemoPage() {
               if (item.kind === "photo") {
                 const p = item.data;
                 return (
-                  <div key={p.id} className="overflow-hidden rounded-2xl" style={{ border: "1px solid #ede8e0" }}>
+                  <div key={p.id} className="overflow-hidden rounded-2xl" style={{ border: "1px solid #d9e8de" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={p.img} alt={`Monty: ${p.caption}`} className="h-64 w-full object-cover" />
                     <div className="flex items-center justify-between px-3.5 py-2.5" style={{ background: "var(--card)" }}>
@@ -124,7 +124,7 @@ export default function DemoPage() {
               }
               const n = item.data;
               return (
-                <div key={n.id} className="flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #ede8e0" }}>
+                <div key={n.id} className="flex items-start gap-3 rounded-2xl p-4" style={{ background: "var(--card)", border: "1px solid #d9e8de" }}>
                   <span className="mt-0.5 text-base" aria-hidden="true">📝</span>
                   <div className="flex-1">
                     <p className="text-sm" style={{ color: "var(--text)" }}>{n.body}</p>
@@ -137,11 +137,11 @@ export default function DemoPage() {
         </section>
 
         {/* CTA */}
-        <div className="mt-10 rounded-3xl px-8 py-10 text-center" style={{ background: "#e7f0e3" }}>
+        <div className="mt-10 rounded-3xl px-8 py-10 text-center" style={{ background: "#dff3e6" }}>
           <h2 className="mb-2 text-2xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
             Ready to start your own?
           </h2>
-          <p className="mb-5 text-sm" style={{ color: "#42583f" }}>It&apos;s free, and your first plant takes two minutes to add.</p>
+          <p className="mb-5 text-sm" style={{ color: "#1f6e4c" }}>It&apos;s free, and your first plant takes two minutes to add.</p>
           <Link
             href="/signup"
             className="inline-block rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"

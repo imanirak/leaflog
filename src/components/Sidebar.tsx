@@ -108,7 +108,7 @@ export default function Sidebar() {
         <Link
           href="/app/plants/new"
           className="flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold shadow-lg transition-all hover:opacity-90 active:scale-95"
-          style={{ background: "var(--orange)", color: "var(--navy)", boxShadow: "0 4px 14px rgba(249,115,22,0.4)" }}
+          style={{ background: "var(--orange)", color: "#ffffff", boxShadow: "0 4px 14px rgba(45,106,79,0.4)" }}
         >
           <span aria-hidden="true">+</span> Add a plant
         </Link>
@@ -129,7 +129,7 @@ export default function Sidebar() {
                 : initials}
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-white group-hover:text-orange-400 transition-colors">
+              <p className="truncate text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
                 {displayName ?? "My Profile"}
               </p>
               <p className="text-xs" style={{ color: SIDEBAR_MUTED }}>{plantCount} plant{plantCount !== 1 ? "s" : ""} thriving</p>
