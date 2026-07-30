@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const USERNAME_COOLDOWN_DAYS = 30;
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif", "image/gif"]);
 
 export async function upsertProfile(formData: FormData) {
   const supabase = await createClient();
@@ -65,14 +67,17 @@ export async function uploadAvatar(formData: FormData) {
 
   const file = formData.get("avatar") as File;
   if (!file || file.size === 0) return;
+  if (file.size > MAX_AVATAR_BYTES) throw new Error("Avatar is too large (max 5MB).");
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) throw new Error("Unsupported file type — please upload a JPG, PNG, WEBP, HEIC, or GIF.");
 
   const ext = file.name.split(".").pop();
   const path = `${user.id}/avatar.${ext}`;
 
-  await supabase.storage.from("avatars").upload(path, file, {
+  const { error: uploadError } = await supabase.storage.from("avatars").upload(path, file, {
     upsert: true,
     contentType: file.type,
   });
+  if (uploadError) throw new Error(uploadError.message);
 
   await supabase.from("profiles").update({ avatar_storage_path: path }).eq("id", user.id);
   revalidatePath("/app/settings/profile");

@@ -108,6 +108,9 @@ export async function deleteNote(noteId: string, plantId: string) {
   revalidatePath(`/app/plants/${plantId}`);
 }
 
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif", "image/gif"]);
+
 export async function uploadPhoto(plantId: string, formData: FormData): Promise<string | undefined> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -116,6 +119,8 @@ export async function uploadPhoto(plantId: string, formData: FormData): Promise<
   const file = formData.get("file") as File;
   const caption = formData.get("caption") as string | null;
   if (!file || file.size === 0) return;
+  if (file.size > MAX_UPLOAD_BYTES) throw new Error("Photo is too large (max 10MB).");
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) throw new Error("Unsupported file type — please upload a JPG, PNG, WEBP, HEIC, or GIF.");
 
   const ext = file.name.split(".").pop();
   const path = `${user.id}/${plantId}/${Date.now()}.${ext}`;
